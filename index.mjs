@@ -80,3 +80,19 @@ app.listen(3000, () => {
 });
 
 // Functions
+/**
+ * Checks if the current session is authenticated.
+ *  Redirects the user if it is not.
+ *  Goes to next function if it is.
+ * Author: Noah deFer
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next The next function to be called.
+ */
+function isAuthenticated(req, res, next) {
+    if(!req.session.authenticated) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+} // isAuthenticated
