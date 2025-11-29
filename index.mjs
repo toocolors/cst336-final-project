@@ -29,6 +29,14 @@ app.get('/login', (req, res) => {
     res.render('login');
 }); // get login
 
+// post login
+app.post('/login', (req, res) => {
+    // TODO: VaLidate login credentials
+
+    // Redirect to main page
+    res.redirect('/');
+}); // post login
+
 // MAIN MENU ROUTES
 // Root
 app.get('/', (req, res) => {
