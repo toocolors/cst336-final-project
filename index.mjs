@@ -96,6 +96,16 @@ app.post('/login', async (req, res) => {
     }
 }); // post login
 
+// logout
+// Author: Noah deFer
+app.get('/logout', (req, res) => {
+    // Clear session data
+    req.session.destroy();
+
+    // Redirect to login
+    res.redirect('/');
+}); // logout
+
 // MAIN MENU ROUTES
 
 // QUEST ROUTES
