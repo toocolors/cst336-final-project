@@ -1,5 +1,7 @@
 import express from 'express';
 import mysql from 'mysql2/promise';
+import bcrypt from 'bcrypt';
+import session from 'express-session';
 
 // Setup app
 const app = express();
@@ -8,6 +10,14 @@ app.use(express.static("public"));
 
 //for Express to get values using POST method
 app.use(express.urlencoded({extended:true}));
+
+// Setting session settings
+app.set('trust proxy', 1);
+app.use(session({
+    secret: 'Call me Ishmael.',
+    resave: false,
+    saveUninitialized: true
+}));
 
 //setting up database connection pool
 const pool = mysql.createPool({
@@ -18,13 +28,14 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     waitForConnections: true
 });
+const conn = await pool.getConnection();
 
 // Setup Routes
 // GAME ROUTES
 
-// LOGIN / SIGNUP ROUTES
+// LOGIN / LOGOUT ROUTES
 // get login
-app.get('/login', (req, res) => {
+app.get('/', (req, res) => {
     // Render login page
     res.render('login');
 }); // get login
@@ -38,14 +49,12 @@ app.post('/login', (req, res) => {
 }); // post login
 
 // MAIN MENU ROUTES
-// Root
-app.get('/', (req, res) => {
-    res.send('Hello Final Project App!');
-}); // Root
 
 // QUEST ROUTES
 
 // REVIEW ROUTES
+
+// SIGNUP ROUTES
 
 // API ROUTES
 
@@ -59,7 +68,7 @@ app.get('/dbTest', async (req, res) => {
         FROM test`;
 
     // Execute SQL
-    const [rows] = await pool.query(sql);
+    const [rows] = await conn.query(sql);
 
     // Send SQL Test Data
     res.send(rows);
