@@ -10,11 +10,21 @@
     Please Login:
     <br>
 
+    <!-- Login Message -->
+    <% if (typeof loginMessage !== 'undefined') { %>
+        <br>
+        <span id="loginError" class="red">
+            <%= loginMessage %>
+        </span>
+        <br>
+    <% } %>
+
     <!-- Login Form -->
     <!-- TODO: Add form validation -->
     <form method="POST" action="/login">
         Username:
         <input type="text" name="username">
+        <span class="gray">Username must be between 1-8 characters.</span>
         <br>
         Password:
         <input type="password" name="password">
