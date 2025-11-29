@@ -38,27 +38,62 @@ const conn = await pool.getConnection();
 // GAME ROUTES
 
 // LOGIN / LOGOUT ROUTES
-// get login
+// Root
+// Author: Noah deFer
 app.get('/', (req, res) => {
     // Render login page
     res.render('login');
-}); // get login
+}); // Root
 
 // post login
-app.post('/login', (req, res) => {
+// Checks if username and password from user are valid.
+// Rerenders login page if either are invalid.
+// TODO: Redirects to main menu of both are valid.
+// Author: Noah deFer
+app.post('/login', async (req, res) => {
     // Get username and password
+    let username = req.body.username;
+    let password = req.body.password;
 
-    // Check if username is empty or too long
-
-    // Check if password is empty
+    // Check if username is empty or too long,
+    //  or if password is empty
+    if (username == '' || username.length > username_max || password == '') {
+        // Render login page with message
+        res.render('login', {
+            'loginMessage': 'Invalid username or password.'
+        });
+        return;
+    }
 
     // Get user from database
+    let user = await getUserByUsername(username);
 
-    // Execute SQL
+    // Check if user exists
+    if (user.length == 0) {
+        // Render login page with message
+        res.render('login', {
+            'loginMessage': 'Username does not exist.'
+        });
+        return;
+    }
 
-
-    // Redirect to main page
-    res.redirect('/');
+    // Check stored hash and passwordHash
+    let match = await bcrypt.compare(password, user[0].password);
+    if (match) {
+        // Update session information
+        req.session.authenticated = true;
+        req.session.user = user[0].user_id;
+        // Placeholder until Main Menu is ready
+        // JIAN: Change render call to main menu redirect: <-------------------------------------------------
+        res.render('login', {
+            'loginMessage': 'Login Successful'
+        });
+    } else {
+        // Rerender login page with message
+        res.render('login', {
+            'loginMessage': 'Password does not match.'
+        });
+    }
 }); // post login
 
 // MAIN MENU ROUTES
@@ -125,7 +160,7 @@ async function getUserByUsername(username) {
     // Build SQL Statement
     let sql = `
         SELECT *
-        FORM users
+        FROM users
         WHERE username LIKE ?`;
 
     // Execute SQL
