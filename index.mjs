@@ -20,12 +20,28 @@ const pool = mysql.createPool({
 });
 
 // Setup Routes
-// GET Routes
+// GAME ROUTES
+
+// LOGIN / SIGNUP ROUTES
+// get login
+app.get('/login', (req, res) => {
+    // Render login page
+    res.render('login');
+}); // get login
+
+// MAIN MENU ROUTES
 // Root
 app.get('/', (req, res) => {
     res.send('Hello Final Project App!');
 }); // Root
 
+// QUEST ROUTES
+
+// REVIEW ROUTES
+
+// API ROUTES
+
+// TEST ROUTES
 // dbTest
 app.get('/dbTest', async (req, res) => {
     // Get SQL Test Data
