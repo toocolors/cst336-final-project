@@ -1,0 +1,44 @@
+<!-- Head -->
+<%- include('partials/head.ejs') %>
+
+<body>
+    <h1>GameQuest Tracker</h1>
+    <h2>Login</h2>
+
+    Welcome to GameQuest Tracker!
+    <br>
+    Please Login:
+    <br>
+
+    <!-- Login Message -->
+    <% if (typeof loginMessage !== 'undefined') { %>
+        <br>
+        <span id="loginError" class="red">
+            <%= loginMessage %>
+        </span>
+        <br>
+    <% } %>
+
+    <!-- Login Form -->
+    <!-- TODO: Add form validation -->
+    <form method="POST" action="/login">
+        Username:
+        <input type="text" name="username">
+        <span class="gray">Username must be between 1-8 characters.</span>
+        <br>
+        Password:
+        <input type="password" name="password">
+        <br>
+        <button>Login</button>
+    </form>
+
+    <!-- Sign Up -->
+    <form action="/signup">
+        Don't have an account?
+        <button>Sign Up</button>
+    </form>
+
+    <!-- Footer -->
+    <%- include('partials/footer.ejs') %>
+</body>
+</html>
