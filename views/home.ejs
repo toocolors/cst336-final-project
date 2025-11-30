@@ -1,0 +1,73 @@
+<!-- Head -->
+<%- include('partials/head.ejs') %>
+
+<link rel="stylesheet" href="/css/homeStyles.css">
+
+<body class="home-body">
+<div class="home-container">
+    <!-- Header -->
+    <header class="home-header">
+        <h1 class="home-title">GameQuest Tracker</h1>
+        <div class="home-user-info">
+            <span class="home-welcome">Welcome, <strong><%= username %></strong>!</span>
+            <a href="/logout" class="home-logout-btn">Logout</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="home-main">
+        <h2 class="home-page-title">Home</h2>
+
+        <!-- Navigation Cards -->
+        <div class="home-nav-cards">
+            <div class="home-card">
+                <h3 class="home-card-title">Games</h3>
+                <p class="home-card-text">Browse, add, and manage your game collection</p>
+                <a href="/games" class="home-btn">View Games</a>
+            </div>
+
+            <div class="home-card">
+                <h3 class="home-card-title">Favorites</h3>
+                <p class="home-card-text">View your favorite games</p>
+                <a href="/favorites" class="home-btn">View Favorites</a>
+            </div>
+
+            <div class="home-card">
+                <h3 class="home-card-title">Quests</h3>
+                <p class="home-card-text">Track your gaming quests and challenges</p>
+                <a href="/quests" class="home-btn">View Quests</a>
+            </div>
+
+            <div class="home-card">
+                <h3 class="home-card-title">Reviews</h3>
+                <p class="home-card-text">Read and write game reviews</p>
+                <a href="/reviews" class="home-btn">View Reviews</a>
+            </div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div class="home-recent-activity">
+            <h3 class="home-section-title">Recent Activity</h3>
+            <div id="recentGames" class="home-recent-games">
+                <p class="home-loading">Loading recent games...</p>
+            </div>
+        </div>
+
+        <!-- Fun Fact Section -->
+        <div class="home-fun-fact">
+            <h3 class="home-section-title">Did You Know?</h3>
+            <div id="factContainer" class="home-fact-container">
+                <p class="home-loading">Loading fun fact...</p>
+            </div>
+            <button id="newFactBtn" class="home-btn-secondary">Get Another Fact</button>
+        </div>
+    </main>
+</div>
+
+<!-- Link to external JavaScript -->
+<script src="/js/homeScript.js"></script>
+
+<!-- Footer -->
+<%- include('partials/footer.ejs') %>
+</body>
+</html>

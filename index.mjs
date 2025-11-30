@@ -32,7 +32,8 @@ const pool = mysql.createPool({
     connectionLimit: 10,
     waitForConnections: true
 });
-const conn = await pool.getConnection();
+// instead of using this line, it is simpler to just use the pool directly - jian
+// const conn = await pool.getConnection();
 
 // Setup Routes
 // GAME ROUTES
@@ -48,7 +49,6 @@ app.get('/', (req, res) => {
 // post login
 // Checks if username and password from user are valid.
 // Rerenders login page if either are invalid.
-// TODO: Redirects to main menu of both are valid.
 // Author: Noah deFer
 app.post('/login', async (req, res) => {
     // Get username and password
@@ -83,11 +83,9 @@ app.post('/login', async (req, res) => {
         // Update session information
         req.session.authenticated = true;
         req.session.user = user[0].user_id;
-        // Placeholder until Main Menu is ready
-        // JIAN: Change render call to main menu redirect: <-------------------------------------------------
-        res.render('login', {
-            'loginMessage': 'Login Successful'
-        });
+        req.session.username = user[0].username;
+
+        res.redirect('/home');
     } else {
         // Rerender login page with message
         res.render('login', {
@@ -107,6 +105,19 @@ app.get('/logout', (req, res) => {
 }); // logout
 
 // MAIN MENU ROUTES
+// Author: Jian Mitchell
+app.get('/home', isAuthenticated, async (req, res) => {
+   try {
+       const username = req.session.username || 'Guest';
+
+       res.render('home', {
+          username: username
+       });
+   }  catch (error) {
+       console.error('Error loading home page:', error);
+       res.redirect('/');
+   }
+}); // home
 
 // QUEST ROUTES
 
@@ -115,6 +126,21 @@ app.get('/logout', (req, res) => {
 // SIGNUP ROUTES
 
 // API ROUTES
+// Author: Jian Mitchell
+app.get('/api/recent-games', isAuthenticated, async (req, res) => {
+   try {
+       let sql = `
+            SELECT game_id, game_name
+            FROM games
+            ORDER BY game_id DESC
+            LIMIT 5`;
+
+       const [rows] = await pool.query(sql);
+       res.json(rows);
+   } catch (error) {
+       console.error('Error fetching recent games:', error);
+   }
+});
 
 // TEST ROUTES
 // dbTest
@@ -126,7 +152,7 @@ app.get('/dbTest', async (req, res) => {
         FROM test`;
 
     // Execute SQL
-    const [rows] = await conn.query(sql);
+    const [rows] = await pool.query(sql);
 
     // Send SQL Test Data
     res.send(rows);
@@ -147,13 +173,14 @@ app.listen(3000, () => {
  */
 async function getUserById(id) {
     // Build SQL Statement
+    // There was a typo in this line (form - from) - jian
     let sql = `
         SELECT *
-        FORM users
+        FROM users
         WHERE user_id = ?`;
 
     // Execute SQL
-    const [rows] = await conn.query(sql, [id]);
+    const [rows] = await pool.query(sql, [id]);
 
     // Return result
     return rows;
@@ -174,7 +201,7 @@ async function getUserByUsername(username) {
         WHERE username LIKE ?`;
 
     // Execute SQL
-    const [rows] = await conn.query(sql, [username]);
+    const [rows] = await pool.query(sql, [username]);
 
     // Return result
     return rows;
