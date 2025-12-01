@@ -1,14 +1,18 @@
 <!-- Head -->
 <%- include('partials/head.ejs') %>
 
+<link rel="stylesheet" href="/css/loginStyles.css">
+
 <body>
     <h1>GameQuest Tracker</h1>
     <h2>Login</h2>
 
     Welcome to GameQuest Tracker!
     <br>
+    <br>
     Please Login:
     <br>
+    
 
     <!-- Login Message -->
     <% if (typeof loginMessage !== 'undefined') { %>
@@ -24,8 +28,8 @@
     <form method="POST" action="/login">
         Username:
         <input type="text" name="username">
-        <span class="gray">Username must be between 1-8 characters.</span>
         <br>
+
         Password:
         <input type="password" name="password">
         <br>
