@@ -124,6 +124,43 @@ app.get('/home', isAuthenticated, async (req, res) => {
 // REVIEW ROUTES
 
 // SIGNUP ROUTES
+// Author: Suhaib Peracha
+// simple signup page
+app.get('/signup', (req, res) => {
+    res.render('signup', { signupMessage: '' })
+})
+
+// handle signup submit
+app.post('/signup', async (req, res) => {
+    let username = req.body.username
+    let password = req.body.password
+    let confirm = req.body.confirm
+
+    // basic checks
+    if (!username || username.length > username_max || !password || password !== confirm) {
+        return res.render('signup', {
+            signupMessage: 'Invalid info'
+        })
+    }
+
+    // check username exists
+    let existing = await getUserByUsername(username)
+    if (existing.length > 0) {
+        return res.render('signup', {
+            signupMessage: 'Username taken'
+        })
+    }
+
+    // hash pass
+    let hash = await bcrypt.hash(password, 10)
+
+    // insert user
+    await createUser(username, hash)
+
+    // go back to login
+    res.redirect('/')
+})
+
 
 // API ROUTES
 // Author: Jian Mitchell
@@ -206,6 +243,18 @@ async function getUserByUsername(username) {
     // Return result
     return rows;
 } // getUserByUsername
+
+// create new user
+// Author: Suhaib Peracha
+async function createUser(username, hash) {
+    let sql = `
+        INSERT INTO users (username, password)
+        VALUES (?, ?)
+    `
+    const [result] = await pool.query(sql, [username, hash])
+    return result
+}
+
 
 /**
  * Checks if the current session is authenticated.
