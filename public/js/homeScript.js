@@ -63,14 +63,13 @@ async function loadRecentGames() {
 
     const response = await fetch('/api/recent-games');
     const data = await response.json();
-
-    //console.log('Get games:', data);
+    // console.log('Get games:', data);
 
     if (!response.ok) {
       console.error('Failed to fetch recent games');
     }
 
-    if (games && games.length > 0) {
+    if (data && data.length > 0) {
       displayRecentGames(data);
     } else {
       recentGamesContainer.innerHTML = '<p>No recent games to display. Add games to your collection!</p>'
