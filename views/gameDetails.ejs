@@ -2,14 +2,14 @@
 <%- include('partials/head.ejs') %>
 
 <!-- Stylesheet -->
-<link href="/css/gameDetailsStyles.css" rel="stylesheet">
+ 
 
 <body>
     <main>
         <!-- Main Headings -->
-        <div id="heading-container">
+        <div id="headingContainer">
             <!-- Navigation -->
-            <div id="navigation-container">
+            <div id="navigationContainer">
                 <form action="/home">
                     <button id="homeBtn">Home</button>
                 </form>
@@ -30,20 +30,33 @@
         
 
         <!-- Search Bar -->
-        <div id="search-container">
+        <div id="searchContainer">
             <input id="search" type="text" placeholder="Enter a game name." value="
             <% if (typeof gameId !== 'undefined') { %>
                 <%= gameId %>
             <% } %>
             ">
             <button id="searchBtn">Find Game</button>
+            <!-- Error Message -->
+            <span id="searchError"></span>
         </div>
 
         <!-- Game Info -->
-        <span id="searchError"></span>
+        <!-- Game Name / Buttons -->
+        <div id="gameHeadingContainer">
+            <form action="/favorite" method="POST">
+                <input id="favoriteId" name="gameId" type="hidden" value="">
+                <button id="favoriteBtn">Favorite</button>
+            </form>
+            
+            <h2 id="gameName"></h2>
 
-        <!-- Game Information -->
-        <h2 id="gameName"></h2>
+            <form action="/collection" method="POST">
+                <input id="collectionId" name="gameId" type="hidden" value="">
+                <button id="collectionBtn">Add to Collection</button>
+            </form>
+            
+        </div>
 
         <!-- Image -->
         <div id="gameImgContainer"></div>
