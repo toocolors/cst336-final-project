@@ -6,6 +6,8 @@ import session from 'express-session';
 
 // Global Constants
 const username_max = 8;
+const rawg_key = '72b5dccc903f4bb58b7a00204ba16857';
+const rawg_url = 'https://api.rawg.io/api/';
 
 // Setup app
 const app = express();
@@ -37,6 +39,12 @@ const pool = mysql.createPool({
 
 // Setup Routes
 // GAME ROUTES
+app.get('/game/:id', (req, res) => {
+    // Renger gameDetails page
+    res.render('gameDetails', {
+        'gameId': req.params.id
+    });
+})
 
 // LOGIN / LOGOUT ROUTES
 // Root
@@ -163,6 +171,21 @@ app.post('/signup', async (req, res) => {
 
 
 // API ROUTES
+app.get('/api/game/:id', async (req, res) => {
+    // Get params
+    let id = req.params.id;
+    console.log(`Getting ${id}`);
+
+    // Get game details
+    let url = `${rawg_url}games/${id}?key=${rawg_key}`;
+    let response = await fetch(url);
+    let data = await response.json();
+    console.log(data);
+
+    // Send game details
+    res.send(data);
+})
+
 // Author: Jian Mitchell
 app.get('/api/recent-games', isAuthenticated, async (req, res) => {
    try {

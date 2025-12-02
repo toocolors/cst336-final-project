@@ -4,25 +4,41 @@
 <!-- Stylesheet -->
 
 <body>
+
     <!-- Main Headings -->
     <h1>GameQuest Tracker</h1>
     <h2 id="gameName"></h2>
 
+    <!-- Search Bar -->
+    <input id="search" type="text" placeholder="Enter a game name." value="
+    <% if (typeof gameId !== 'undefined') { %>
+        <%= gameId %>
+    <% } %>
+    ">
+    <button id="searchBtn">Find Game</button>
+
     <!-- Image -->
+    <div id="gameImgContainer"></div>
 
     <!-- Description -->
+    <div id="gameDesc"></div>
 
     <!-- Release Date -->
+    <h3 id="release"></h3>
 
     <!-- Ratings -->
+    <div id="ratings"></div>
 
     <!-- Developers -->
+    <div id="developers"></div>
 
     <!-- Genres -->
+    <div id="genres"></div>
 
     <!-- Footer -->
     <%- include('partials/footer.ejs') %>
 
     <!-- Scripts -->
+    <script src="/js/gameDetailsScript.js"></script>
 </body>
 </html>
