@@ -2,9 +2,34 @@
 document.querySelector('#searchBtn').addEventListener('click', displayGameDetails);
 
 // Functions
+function buildGameObject(data) {
+    // Build JSON with desired details
+    let game = {
+        'id': data.id,
+        'name': data.name,
+        'description': data.description,
+        'esrb_rating': data.esrb_rating,
+        'released': data.released,
+        'background_image': data.background_image,
+        'background_image_additional': data.background_image_additional,
+        'ratings': data.ratings,
+        'developers': data.developers,
+        'publishers': data.publishers,
+        'genres': data.genres
+    };
+    return game;
+}
+
 async function displayGameDetails() {
     // Get Game Details
     let game = await getGameDetails();
+
+    // Check if game was found
+    if (!game) {
+        document.querySelector('#searchError').textContent = `
+        Could not find game.`;
+        return;
+    }
 
     // Display game details
     // Name
@@ -65,15 +90,55 @@ async function getGameDetails() {
     let name = document.querySelector("#search").value.trim();
 
     // Check Local Storage
+    let data = await getGameFromStorage(name);
 
-    // Check API
-    let response = await fetch(`/api/game/${name}`);
-    let data = await response.json();
-
-    // Build JSON with desired details
-
-    // Store Game Details in Local Storage
+    // Check API, build JSON from response, store JSON in local storage.
+    if(!data) {
+        let json = await getGameFromAPI(name);
+        // Check if game was found.
+        if (typeof json.detail !== 'undefined' && json.detail == 'Not found.') {
+            console.log(`${name} not found.`)
+            return false;
+        } 
+        // Build JSON and store it in local storage.
+        data = buildGameObject(json);
+        storeGame(data);
+    } 
+    else {
+        console.log(`Found ${name} in local storage!`);
+    }
 
     // Return Game Details
     return data;
+}
+
+async function getGameFromAPI(name) {
+    console.log(`Getting ${name} from API...`);
+    let response = await fetch(`/api/game/${name}`);
+    data = await response.json();
+
+    return data;
+}
+
+async function getGameFromStorage(name) {
+    console.log(`Looking for ${name} in local storage...`);
+    try {
+        // Get and parse local storage data.
+        let storage = localStorage.getItem(`GameQuest/Game/${name}`);
+        let data = await JSON.parse(storage);
+
+        // Return data.
+        return data;
+    } catch (err) {
+        // Print error message and return.
+        console.error(`Error getting ${name} from local storage.`, err);
+        return false;
+    }
+}
+
+function storeGame(game) {
+    // Store Game Details in Local Storage
+    console.log(`Storing ${game.name} into local storage...`);
+    localStorage.setItem(`GameQuest/Game/${game.name}`, JSON.stringify(game));
+    console.log(`Stored ${game.name} in local storage!`);
 }
