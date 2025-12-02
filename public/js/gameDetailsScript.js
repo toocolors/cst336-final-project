@@ -138,7 +138,13 @@ async function getGameDetails() {
  * @returns A JSON of game data (or false if game was not found.)
  */
 async function getGameFromAPI(name) {
+    // Print message
     console.log(`Getting ${name} from API...`);
+
+    // Slugify name
+    name = slugify(name);
+
+    // Fetch game
     let response = await fetch(`/api/game/${name}`);
     data = await response.json();
 
@@ -166,6 +172,27 @@ async function getGameFromStorage(name) {
         return false;
     }
 }
+
+/**
+ * Reformats the passed in string to match RAWG API formatting.
+ * Author: Noah deFer
+ * @param {String} str The string to be formated.
+ * @returns A formatted string.
+ */
+function slugify(str) {
+    // Convert str to lowercase
+    str = str.toLowerCase();
+
+    // Replace ' ' with '-'
+    str = str.replace(/\s/g, '-');
+
+    // Remove special characters
+    str = str.replace(/[^\w-]/g, '');
+
+    // Return str
+    console.log(`Slug: ${str}`);
+    return str;
+} // slugify
 
 /**
  * Stores a JSON of game data in local storage.
