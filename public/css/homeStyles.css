@@ -1,190 +1,183 @@
 /**
  * homeStyles.css - Stylesheet for Home Page Only
- * Authors: Jian Mitchell
+ * Authors: Jian Mitchell, Suhaib Peracha
  */
 
-/* Body specific to home page */
+/* whole page */
 .home-body {
   margin: 0;
   padding: 20px;
-  font-family: Arial, sans-serif;
-  background-color: #e9ecef;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+  background: #1e1e2b;
+  color: #f5f5f5;
+  text-align: center;
 }
 
-/* Container */
+/* main container */
 .home-container {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
-  background-color: white;
   padding: 20px;
-  border: 1px solid #ccc;
 }
 
-/* Header */
+/* header */
 .home-header {
-  border-bottom: 2px solid #000;
   padding-bottom: 15px;
   margin-bottom: 25px;
+  border-bottom: 2px solid #66c0f4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .home-title {
   margin: 0;
-  font-size: 28px;
-  color: #000;
-  display: inline-block;
+  font-size: 32px;
+  color: #66c0f4;
 }
 
-/* User Info */
+/* user info */
 .home-user-info {
-  float: right;
-  margin-top: 5px;
+  font-size: 14px;
 }
 
 .home-welcome {
   margin-right: 10px;
-  color: #333;
+  color: #c7d5e0;
 }
 
-/* Logout Button */
+/* logout */
 .home-logout-btn {
-  background-color: #cc0000;
+  background: #cc0000;
   color: white;
   padding: 8px 15px;
   text-decoration: none;
-  border-radius: 3px;
+  border-radius: 6px;
+  font-weight: bold;
 }
 
 .home-logout-btn:hover {
-  background-color: #990000;
+  background: #990000;
 }
 
-/* Main Content */
-.home-main {
-  clear: both;
-}
-
-.home-page-title {
-  font-size: 22px;
-  color: #333;
-  margin-bottom: 20px;
-  margin-top: 0;
-}
-
+/* section titles */
+.home-page-title,
 .home-section-title {
-  font-size: 18px;
-  color: #000;
-  margin: 0 0 10px 0;
+  color: #c7d5e0;
+  margin-bottom: 20px;
 }
 
-/* Navigation Cards */
+/* navigation cards */
 .home-nav-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: 20px;
   margin-bottom: 25px;
 }
 
 .home-card {
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
-  padding: 20px;
+  background: #2a2a3b;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.35);
 }
 
 .home-card-title {
-  font-size: 18px;
-  color: #000;
-  margin: 0 0 10px 0;
+  color: #66c0f4;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
 .home-card-text {
-  color: #666;
-  margin: 0 0 15px 0;
+  color: #adb5bd;
+  margin-bottom: 15px;
   line-height: 1.5;
 }
 
-/* Buttons */
+/* buttons */
 .home-btn {
   display: inline-block;
-  background-color: #0066cc;
-  color: white;
+  background: #66c0f4;
+  color: #1e1e2b;
   padding: 10px 20px;
   text-decoration: none;
-  border: none;
+  border-radius: 6px;
+  font-weight: bold;
 }
 
 .home-btn:hover {
-  background-color: #004499;
+  background: #8fd3ff;
 }
 
 .home-btn-secondary {
-  background-color: #666;
-  color: white;
+  margin-top: 20px;
+  background: #66c0f4;
+  color: #1e1e2b;
   padding: 10px 20px;
-  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
-  margin-top: 10px;
+  font-weight: bold;
+  border: none;
 }
+
 
 .home-btn-secondary:hover {
-  background-color: #444;
+  background: #8fd3ff;
 }
 
-/* Recent Activity Section */
-.home-recent-activity {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  padding: 15px;
-  margin-bottom: 20px;
-}
-
-.home-recent-games {
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-top: 10px;
-  min-height: 50px;
-}
-
-/* Fun Fact Section */
+/* recent activity */
+.home-recent-activity,
 .home-fun-fact {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  padding: 15px;
-  margin-bottom: 20px;
+  background: #2a2a3b;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.35);
 }
 
+.home-recent-games,
 .home-fact-container {
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-top: 10px;
-  line-height: 1.6;
-  min-height: 50px;
+  background: #3a3a4f;
+  border-radius: 6px;
+  padding: 15px;
+  min-height: 60px;
+  color: #dcdcdc;
 }
 
-/* Game Items */
+/* game items */
 .home-game-item {
-  padding: 8px;
-  border-bottom: 1px solid #eee;
+  padding: 10px;
+  border-bottom: 1px solid #555;
 }
 
 .home-game-item:last-child {
   border-bottom: none;
 }
 
-/* Messages */
+/* messages */
 .home-loading {
-  color: #999;
+  color: #9aa0a6;
   font-style: italic;
 }
 
 .home-error {
-  color: #cc0000;
+  color: #ff6b6b;
   font-weight: bold;
 }
 
 .home-success {
-  color: #008800;
+  color: #66ff99;
   font-weight: bold;
 }
+
+/* footer stays normal */
+footer {
+  text-align: center;
+  margin-top: 40px;
+}
+
+footer figure img {
+  display: block;
+  margin: 0 auto;
+}
+
