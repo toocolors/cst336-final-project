@@ -174,13 +174,11 @@ app.post('/signup', async (req, res) => {
 app.get('/api/game/:id', async (req, res) => {
     // Get params
     let id = req.params.id;
-    console.log(`Getting ${id}`);
 
     // Get game details
     let url = `${rawg_url}games/${id}?key=${rawg_key}`;
     let response = await fetch(url);
     let data = await response.json();
-    console.log(data);
 
     // Send game details
     res.send(data);

@@ -7,6 +7,10 @@ async function displayGameDetails() {
     let game = await getGameDetails();
 
     // Display game details
+    // Name
+    let name = document.querySelector('#gameName');
+    name.innerHTML = game.name;
+
     // Image
     let img = document.querySelector('#gameImgContainer');
     img.innerHTML = `<img
@@ -15,14 +19,45 @@ async function displayGameDetails() {
         alt='${game.name}'>`;
 
     // Description
+    let desc = document.querySelector('#gameDesc');
+    desc.innerHTML = game.description;
 
     // Release Date
+    let release = document.querySelector('#release');
 
     // Ratings
+    let ratings = document.querySelector('#ratings');
+    ratings.innerHTML = '<h3>Ratings</h3>';
+    for (let i = 0; i < game.ratings.length; i++) {
+        let rating = game.ratings[i];
+        ratings.innerHTML += `
+            ${rating.title}: ${rating.count} (${rating.percent}%)
+            <br>`
+    }
 
-    // Developer
+    // Developers
+    let developers = document.querySelector('#developers');
+    developers.innerHTML = '<h3>Developers</h3>';
+    for (let i = 0; i < game.developers.length; i++) {
+        let developer = game.developers[i];
+        developers.innerHTML += `${developer.name}<br>`;
+    }
+
+    // Publishers
+    let publishers = document.querySelector('#publishers');
+    publishers.innerHTML = '<h3>Publishers</h3>';
+    for (let i = 0; i < game.publishers.length; i++) {
+        let publisher = game.publishers[i];
+        publishers.innerHTML += `${publisher.name}<br>`;
+    }
 
     // Genres
+    let genres = document.querySelector('#genres');
+    genres.innerHTML = '<h3>Genres</h3>';
+    for (let i = 0; i < game.genres.length; i++) {
+        let genre = game.genres[i];
+        genres.innerHTML += `${genre.name}<br>`
+    }
 }
 
 async function getGameDetails() {
