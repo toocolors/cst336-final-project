@@ -47,7 +47,7 @@ h1 {
     background-color: #990000;
 }
 
-#homeBtn, #gamesBtn {
+#homeBtn, #gamesBtn, #searchBtn {
     display: inline-block;
     background-color: #0066cc;
     color: white;
@@ -56,6 +56,16 @@ h1 {
     border: none;
 }
 
-#homeBtn:hover, #gamesBtn:hover {
+#homeBtn:hover, #gamesBtn:hover, #searchBtn:hover {
     background-color: #004499;
+}
+
+/* Search Styles */
+#search-container {
+    margin: auto;
+    text-align: center;
+}
+
+#search {
+    padding: 10px 0;
 }

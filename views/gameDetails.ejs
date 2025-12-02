@@ -2,44 +2,70 @@
 <%- include('partials/head.ejs') %>
 
 <!-- Stylesheet -->
+<link href="/css/gameDetailsStyles.css" rel="stylesheet">
 
 <body>
+    <main>
+        <!-- Main Headings -->
+        <div id="heading-container">
+            <!-- Navigation -->
+            <div id="navigation-container">
+                <form action="/home">
+                    <button id="homeBtn">Home</button>
+                </form>
+                <form action="/games">
+                    <button id="gamesBtn">Games</button>
+                </form>
+            </div>
+            
+            <!-- Heading -->
+            <h1>GameQuest Tracker</h1>
+            
+            <!-- Logout -->
+            <form action="/logout">
+                <button id="logoutBtn">Logout</button>
+            </form>
+        </div>
+        <hr>
+        
 
-    <!-- Main Headings -->
-    <h1>GameQuest Tracker</h1>
+        <!-- Search Bar -->
+        <div id="search-container">
+            <input id="search" type="text" placeholder="Enter a game name." value="
+            <% if (typeof gameId !== 'undefined') { %>
+                <%= gameId %>
+            <% } %>
+            ">
+            <button id="searchBtn">Find Game</button>
+        </div>
 
-    <!-- Search Bar -->
-    <input id="search" type="text" placeholder="Enter a game name." value="
-    <% if (typeof gameId !== 'undefined') { %>
-        <%= gameId %>
-    <% } %>
-    ">
-    <button id="searchBtn">Find Game</button>
-    <span id="searchError"></span>
+        <!-- Game Info -->
+        <span id="searchError"></span>
 
-    <!-- Game Information -->
-    <h2 id="gameName"></h2>
+        <!-- Game Information -->
+        <h2 id="gameName"></h2>
 
-    <!-- Image -->
-    <div id="gameImgContainer"></div>
+        <!-- Image -->
+        <div id="gameImgContainer"></div>
 
-    <!-- Description -->
-    <div id="gameDesc"></div>
+        <!-- Description -->
+        <div id="gameDesc"></div>
 
-    <!-- Release Date -->
-    <h3 id="release"></h3>
+        <!-- Release Date -->
+        <h3 id="release"></h3>
 
-    <!-- Ratings -->
-    <div id="ratings"></div>
+        <!-- Ratings -->
+        <div id="ratings"></div>
 
-    <!-- Developers -->
-    <div id="developers"></div>
+        <!-- Developers -->
+        <div id="developers"></div>
 
-    <!-- Publishers -->
-     <div id="publishers"></div>
+        <!-- Publishers -->
+        <div id="publishers"></div>
 
-    <!-- Genres -->
-    <div id="genres"></div>
+        <!-- Genres -->
+        <div id="genres"></div>
+    </main>
 
     <!-- Footer -->
     <%- include('partials/footer.ejs') %>
