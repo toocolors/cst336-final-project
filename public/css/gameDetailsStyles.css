@@ -1,0 +1,61 @@
+/**
+* gameDetailsStyles - Stylesheet for gameDetails page.
+* Authors: Noah deFer
+*/
+
+/* Body Styles */
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #e9ecef;
+    font-size: 1.2em;
+}
+
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+/* Heading Styles */
+form {
+    display: inline;
+}
+
+h1 {
+    text-align: center;
+    margin: auto;
+}
+
+#heading-container {
+    display: flex;
+    justify-content: center;
+}
+
+#logoutBtn {
+    background-color: #cc0000;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+#logoutBtn:hover {
+    background-color: #990000;
+}
+
+#homeBtn, #gamesBtn {
+    display: inline-block;
+    background-color: #0066cc;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border: none;
+}
+
+#homeBtn:hover, #gamesBtn:hover {
+    background-color: #004499;
+}
