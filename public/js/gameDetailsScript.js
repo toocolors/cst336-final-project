@@ -1,6 +1,19 @@
 // Add Event Listeners
 document.querySelector('#searchBtn').addEventListener('click', displayGameDetails);
 
+// Check if search bar was loaded with text
+if (document.querySelector('#search').value != '') {
+    // Get and Trim text
+    let text = document.querySelector('#search').value;
+    text = text.trim();
+
+    // Update Search Bar Text
+    document.querySelector('#search').value = text;
+
+    // Attempt to display game
+    displayGameDetails();
+}
+
 // Functions
 /**
  * Takes a JSON object from RAWG API and
