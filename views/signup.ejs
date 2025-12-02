@@ -1,22 +1,28 @@
-<div style="width: 400px; margin: 40px auto; text-align:center;">
+<!-- Head -->
+<%- include('partials/head.ejs') %>
 
-    <h2 style="margin-bottom:20px;">Sign Up</h2>
+<link rel="stylesheet" href="/css/signupStyles.css">
+
+<div class="signup-container">
+
+    <h2>Sign Up</h2>
 
     <form action="/signup" method="POST">
-        <input type="text" name="username" placeholder="username" required style="width:100%; margin:5px;">
-        <input type="password" name="password" placeholder="password" required style="width:100%; margin:5px;">
-        <input type="password" name="confirm" placeholder="confirm password" required style="width:100%; margin:5px;">
+        <input type="text" name="username" placeholder="username" required>
+        <input type="password" name="password" placeholder="password" required>
+        <input type="password" name="confirm" placeholder="confirm password" required>
 
-        <button type="submit" style="margin-top:10px;">Sign Up</button>
+        <button type="submit">Sign Up</button>
 
         <% if (signupMessage) { %>
             <p><%= signupMessage %></p>
         <% } %>
     </form>
 
-    <button onclick="window.history.back()" style="margin-top:15px;">
+    <button onclick="window.history.back()">
         Back
     </button>
 
-    <%- include('partials/footer.ejs') %>
 </div>
+
+<%- include('partials/footer.ejs') %>
