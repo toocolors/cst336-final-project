@@ -130,35 +130,52 @@ async function displayGameDetails() {
     // Update ratingsContainer
     let ratingsContainer = document.querySelector('#ratings');
     ratingsContainer.innerHTML = '<h3>Ratings</h3>';
-    for (let i = 0; i < ratings.length; i++) {
-        ratingsContainer.innerHTML += `
-            ${ratings[i]}
-            <br>`;
+    if (game.ratings.length == 0) {
+        ratingsContainer.innerHTML += 'None';
+    } else {
+        for (let i = 0; i < ratings.length; i++) {
+            ratingsContainer.innerHTML += `
+                ${ratings[i]}
+                <br>`;
+        }
     }
 
     // Developers
     let developers = document.querySelector('#developers');
     developers.innerHTML = '<h3>Developers</h3>';
-    for (let i = 0; i < game.developers.length; i++) {
-        let developer = game.developers[i];
-        developers.innerHTML += `${developer.name}<br>`;
+    if (game.developers.length == 0) {
+        developers.innerHTML += 'None';
+    } else {
+        for (let i = 0; i < game.developers.length; i++) {
+            let developer = game.developers[i];
+            developers.innerHTML += `${developer.name}<br>`;
+        }
     }
 
     // Publishers
     let publishers = document.querySelector('#publishers');
     publishers.innerHTML = '<h3>Publishers</h3>';
-    for (let i = 0; i < game.publishers.length; i++) {
-        let publisher = game.publishers[i];
-        publishers.innerHTML += `${publisher.name}<br>`;
+    if (game.publishers.length == 0) {
+        publishers.innerHTML += 'None';
+    } else {
+        for (let i = 0; i < game.publishers.length; i++) {
+            let publisher = game.publishers[i];
+            publishers.innerHTML += `${publisher.name}<br>`;
+        }
     }
-
+    
     // Genres
     let genres = document.querySelector('#genres');
     genres.innerHTML = '<h3>Genres</h3>';
-    for (let i = 0; i < game.genres.length; i++) {
-        let genre = game.genres[i];
-        genres.innerHTML += `${genre.name}<br>`
+    if (game.genres.length == 0) {
+        genres.innerHTML += 'None';
+    } else {
+        for (let i = 0; i < game.genres.length; i++) {
+            let genre = game.genres[i];
+            genres.innerHTML += `${genre.name}<br>`
+        }
     }
+    
 } // displayGameDetails
 
 /**
