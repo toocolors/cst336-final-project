@@ -224,13 +224,10 @@ app.get('/api/game/:id', async (req, res) => {
     let data = await response.json();
 
     // Insert game into games table
-    if (data.length > 0) {
-        let sql = `
-            INSERT IGNORE INTO games (game_id, game_name)
-            VALUES (?, ?)`;
-        const [rows] = await pool.query(sql, [data.id, data.name]);
-        console.log(rows);
-    }
+    let sql = `
+        INSERT IGNORE INTO games (game_id, game_name)
+        VALUES (?, ?)`;
+    const [rows] = await pool.query(sql, [data.id, data.name]);
     
     // Send game details
     res.send(data);
