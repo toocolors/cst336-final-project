@@ -52,9 +52,12 @@ app.post('/collect', async (req, res) => {
 
     // Execute SQL
     const [rows] = await pool.query(sql, [userId, gameId]);
+
+    // Get game name
+    let name = await getGameById(gameId);
     
-    // Redirect to game/:id
-    res.redirect(`/game/${gameId}`);
+    // Redirect to Game Details
+    res.redirect(`/game/${name[0].game_name}`);
 });
 
 app.post('/uncollect', async (req, res) => {
@@ -71,13 +74,17 @@ app.post('/uncollect', async (req, res) => {
     // Execute SQL
     const [rows] = await pool.query(sql, [userId, gameId]);
     
-    // Redirect to game/:id
-    res.redirect(`/game/${gameId}`);
+    // Get game name
+    let name = await getGameById(gameId);
+    
+    // Redirect to Game Details
+    res.redirect(`/game/${name[0].game_name}`);
 });
 
 // GAME ROUTES
 app.get('/game/:id', (req, res) => {
-    // Renger gameDetails page
+    console.log(req.params.id);
+    // Render gameDetails page
     res.render('gameDetails', {
         'gameId': req.params.id
     });
@@ -102,8 +109,11 @@ app.post('/favorite', async (req, res) => {
     // Execute SQL
     const [rows] = await pool.query(sql, [userId, gameId, today]);
     
-    // Redirect to game/:id
-    res.redirect(`/game/${gameId}`);
+    // Get game name
+    let name = await getGameById(gameId);
+    
+    // Redirect to Game Details
+    res.redirect(`/game/${name[0].game_name}`);
 });
 
 app.post('/unfavorite', async (req, res) => {
@@ -120,8 +130,11 @@ app.post('/unfavorite', async (req, res) => {
     // Execute SQL
     const [rows] = await pool.query(sql, [userId, gameId]);
     
-    // Redirect to game/:id
-    res.redirect(`/game/${gameId}`);
+    // Get game name
+    let name = await getGameById(gameId);
+    
+    // Redirect to Game Details
+    res.redirect(`/game/${name[0].game_name}`);
 });
 
 // LOGIN / LOGOUT ROUTES
@@ -281,7 +294,6 @@ app.get('/api/is-collected/:id', async (req, res) => {
         FROM collections
         WHERE user_id = ? AND game_id = ?`;
     const [rows] = await pool.query(sql, [userId, gameId]);
-    console.log(rows);
 
     // Send result (true, false)
     res.send(rows);
@@ -299,7 +311,6 @@ app.get('/api/is-favorite/:id', async (req, res) => {
         FROM favorites
         WHERE user_id = ? AND game_id = ?`;
     const [rows] = await pool.query(sql, [userId, gameId]);
-    console.log(rows);
 
     // Send result (true, false)
     res.send(rows);
@@ -344,6 +355,27 @@ app.listen(3000, () => {
 
 // Functions
 /**
+ * Gets the information of a game from the database
+ *  based on the passed in ID.
+ * Author: Noah deFer
+ * @param {Integer} id The ID of a game.
+ * @returns The response from the SQL server.
+ */
+async function getGameById(id) {
+    // Build SQL Statement
+    let sql = `
+        SELECT *
+        FROM games
+        WHERE game_id = ?`;
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [id]);
+
+    // Return result
+    return rows;
+} // getGameById
+
+/**
  * Gets the information of a user from the database,
  *  based on the passed in ID.
  * Author: Noah deFer
@@ -352,7 +384,6 @@ app.listen(3000, () => {
  */
 async function getUserById(id) {
     // Build SQL Statement
-    // There was a typo in this line (form - from) - jian
     let sql = `
         SELECT *
         FROM users
