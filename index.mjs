@@ -338,6 +338,24 @@ app.get('/api/recent-games', isAuthenticated, async (req, res) => {
    }
 });
 
+app.get('/api/user-collection', async (req, res) => {
+    console.log('Getting user collection...')
+    // Build SQL statement
+    let sql = `
+        SELECT collections.game_id, game_name
+        FROM collections
+        INNER JOIN games ON collections.game_id = games.game_id
+        WHERE user_id = ?
+        ORDER BY game_name`;
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [req.session.user]);
+    console.log(rows);
+
+    // Return result
+    res.send(rows);
+})
+
 // TEST ROUTES
 // dbTest
 app.get('/dbTest', async (req, res) => {
