@@ -39,6 +39,7 @@ const pool = mysql.createPool({
 
 // Setup Routes
 // COLLECTION ROUTES
+// Author: Noah deFer
 app.post('/collect', async (req, res) => {
     // Get game & user ID
     let gameId = req.body.gameId
@@ -60,6 +61,7 @@ app.post('/collect', async (req, res) => {
     res.redirect(`/game/${name[0].game_name}`);
 });
 
+// Author: Noah deFer
 app.post('/uncollect', async (req, res) => {
     // Get game & user ID
     let gameId = req.body.gameId
@@ -86,7 +88,6 @@ app.post('/uncollect', async (req, res) => {
 app.get('/game', async (req, res) => {
     // Get input
     let game = req.query.gameId;
-    console.log(`Getting ${game}`);
 
     // Try to get game data from database
     // Build SQL
@@ -97,7 +98,6 @@ app.get('/game', async (req, res) => {
 
     // Execute SQL
     const [rows] = await pool.query(sql, [game, game]);
-    console.log(rows);
 
     // Redirect to game/:id
     if (rows.length > 0) {
@@ -122,6 +122,7 @@ app.get('/games', async (req, res) => {
 });
 
 // FAVORITE ROUTES
+// Author: Noah deFer
 app.post('/favorite', async (req, res) => {
     // Get game & user ID
     let gameId = req.body.gameId
@@ -147,6 +148,7 @@ app.post('/favorite', async (req, res) => {
     res.redirect(`/game/${name[0].game_name}`);
 });
 
+// Author: Noah deFer
 app.post('/unfavorite', async (req, res) => {
     // Get game & user ID
     let gameId = req.body.gameId
@@ -363,6 +365,7 @@ app.get('/api/recent-games', isAuthenticated, async (req, res) => {
    }
 });
 
+// Author: Noah deFer
 app.get('/api/user-collection', async (req, res) => {
     // Build SQL statement
     let sql = `
