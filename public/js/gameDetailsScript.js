@@ -62,6 +62,23 @@ async function displayGameDetails() {
     let name = document.querySelector('#gameName');
     name.innerHTML = game.name;
 
+    // Favorite Button
+    let favoriteBtn = document.querySelector('#favoriteBtn');
+    let favoriteForm = document.querySelector('#favoriteForm');
+    document.querySelector('#favoriteId').value = game.id;
+    if (await isFavorite(game.id)) {
+        favoriteBtn.textContent = 'Remove from Favorites';
+        favoriteForm.action = '/unfavorite';
+    } else {
+        favoriteBtn.textContent = 'Add to Favorites'
+        favoriteForm.action = '/favorite';
+    }
+
+    // Collection Button
+    let collectionBtn = document.querySelector('#collectionBtn');
+    let collectionForm = document.querySelector('#collectionForm');
+    document.querySelector('#favoriteId').value = game.id;
+
     // Image
     let img = document.querySelector('#gameImgContainer');
     img.innerHTML = `<img
@@ -185,6 +202,26 @@ async function getGameFromStorage(name) {
         return false;
     }
 }
+
+/**
+ * Checks if the passed in game id is favorited by the user.
+ * Author: Noah deFer
+ * @param {Integer} id The id of a game.
+ * @returns True = favorited, False = not favorited
+ */
+async function isFavorite(id) {
+    // Check database
+    let response = await fetch(`/api/is-favorite/${id}`);
+    let data = await response.json();
+    console.log(data);
+
+    // Check length of response
+    if (data.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+} // isFavorite
 
 /**
  * Reformats the passed in string to match RAWG API formatting.

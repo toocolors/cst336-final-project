@@ -44,7 +44,49 @@ app.get('/game/:id', (req, res) => {
     res.render('gameDetails', {
         'gameId': req.params.id
     });
-})
+});
+
+// FAVORITE ROUTES
+app.post('/favorite', async (req, res) => {
+    // Get game & user ID
+    let gameId = req.body.gameId
+    let userId = req.session.user;
+
+    // Get date
+    let date = new Date();
+    let today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+    // Add game to favorites
+    // Build SQL
+    let sql = `
+        INSERT INTO favorites (user_id, game_id, favorited_at)
+        VALUES (?, ?, ?)`
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [userId, gameId, today]);
+    
+    // Redirect to game/:id
+    res.redirect(`/game/${gameId}`);
+});
+
+app.post('/unfavorite', async (req, res) => {
+    // Get game & user ID
+    let gameId = req.body.gameId
+    let userId = req.session.user;
+    console.log(gameId, userId);
+
+    // Add game to favorites
+    // Build SQL
+    let sql = `
+        DELETE FROM favorites
+        WHERE user_id = ? AND game_id = ?`;
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [userId, gameId]);
+    
+    // Redirect to game/:id
+    res.redirect(`/game/${gameId}`);
+});
 
 // LOGIN / LOGOUT ROUTES
 // Root
@@ -171,6 +213,7 @@ app.post('/signup', async (req, res) => {
 
 
 // API ROUTES
+// Author: Noah deFer
 app.get('/api/game/:id', async (req, res) => {
     // Get params
     let id = req.params.id;
@@ -180,9 +223,36 @@ app.get('/api/game/:id', async (req, res) => {
     let response = await fetch(url);
     let data = await response.json();
 
+    // Insert game into games table
+    if (data.length > 0) {
+        let sql = `
+            INSERT IGNORE INTO games (game_id, game_name)
+            VALUES (?, ?)`;
+        const [rows] = await pool.query(sql, [data.id, data.name]);
+        console.log(rows);
+    }
+    
     // Send game details
     res.send(data);
-})
+});
+
+// Author: Noah deFer
+app.get('/api/is-favorite/:id', async (req, res) => {
+    // Get params
+    let gameId = req.params.id;
+    let userId = req.session.user;
+
+    // Check SQL favorites table
+    let sql = `
+        SELECT *
+        FROM favorites
+        WHERE user_id = ? AND game_id = ?`;
+    const [rows] = await pool.query(sql, [userId, gameId]);
+    console.log(rows);
+
+    // Send result (true, false)
+    res.send(rows);
+});
 
 // Author: Jian Mitchell
 app.get('/api/recent-games', isAuthenticated, async (req, res) => {
@@ -273,9 +343,8 @@ async function createUser(username, hash) {
         VALUES (?, ?)
     `
     const [result] = await pool.query(sql, [username, hash])
-    return result
+    return result;
 }
-
 
 /**
  * Checks if the current session is authenticated.
