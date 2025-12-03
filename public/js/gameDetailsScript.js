@@ -111,6 +111,7 @@ async function displayGameDetails() {
 
     // Release Date
     let release = document.querySelector('#release');
+    release.innerHTML = `<h3>Release Date</h3> ${game.released}`;
 
     // Ratings
     // Fill and sort ratings array
