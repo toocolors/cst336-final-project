@@ -234,6 +234,24 @@ app.get('/api/game/:id', async (req, res) => {
 });
 
 // Author: Noah deFer
+app.get('/api/is-collected/:id', async (req, res) => {
+    // Get params
+    let gameId = req.params.id;
+    let userId = req.session.user;
+
+    // Check SQL favorites table
+    let sql = `
+        SELECT *
+        FROM collections
+        WHERE user_id = ? AND game_id = ?`;
+    const [rows] = await pool.query(sql, [userId, gameId]);
+    console.log(rows);
+
+    // Send result (true, false)
+    res.send(rows);
+});
+
+// Author: Noah deFer
 app.get('/api/is-favorite/:id', async (req, res) => {
     // Get params
     let gameId = req.params.id;
