@@ -40,7 +40,7 @@ const pool = mysql.createPool({
 // Setup Routes
 // COLLECTION ROUTES
 // Author: Noah deFer
-app.post('/collect', async (req, res) => {
+app.post('/collect', isAuthenticated, async (req, res) => {
     // Get game & user ID
     let gameId = req.body.gameId
     let userId = req.session.user;
@@ -62,7 +62,7 @@ app.post('/collect', async (req, res) => {
 });
 
 // Author: Noah deFer
-app.post('/uncollect', async (req, res) => {
+app.post('/uncollect', isAuthenticated, async (req, res) => {
     // Get game & user ID
     let gameId = req.body.gameId
     let userId = req.session.user;
@@ -85,7 +85,7 @@ app.post('/uncollect', async (req, res) => {
 
 // GAME ROUTES
 // Author: Noah deFer
-app.get('/game', async (req, res) => {
+app.get('/game', isAuthenticated, async (req, res) => {
     // Get input
     let game = req.query.gameId;
 
@@ -108,7 +108,7 @@ app.get('/game', async (req, res) => {
 });
 
 // Author: Noah deFer
-app.get('/game/:id', (req, res) => {
+app.get('/game/:id', isAuthenticated, (req, res) => {
     // Render gameDetails page
     res.render('gameDetails', {
         'gameId': req.params.id
@@ -116,14 +116,14 @@ app.get('/game/:id', (req, res) => {
 });
 
 // Author: Noah deFer
-app.get('/games', async (req, res) => {
+app.get('/games', isAuthenticated, async (req, res) => {
     // Render games page
     res.render('games');
 });
 
 // FAVORITE ROUTES
 // Author: Noah deFer
-app.post('/favorite', async (req, res) => {
+app.post('/favorite', isAuthenticated, async (req, res) => {
     // Get game & user ID
     let gameId = req.body.gameId
     let userId = req.session.user;
@@ -149,7 +149,7 @@ app.post('/favorite', async (req, res) => {
 });
 
 // Author: Noah deFer
-app.post('/unfavorite', async (req, res) => {
+app.post('/unfavorite', isAuthenticated, async (req, res) => {
     // Get game & user ID
     let gameId = req.body.gameId
     let userId = req.session.user;
@@ -296,7 +296,7 @@ app.post('/signup', async (req, res) => {
 
 // API ROUTES
 // Author: Noah deFer
-app.get('/api/game/:id', async (req, res) => {
+app.get('/api/game/:id', isAuthenticated, async (req, res) => {
     // Get params
     let id = req.params.id;
 
@@ -316,7 +316,7 @@ app.get('/api/game/:id', async (req, res) => {
 });
 
 // Author: Noah deFer
-app.get('/api/is-collected/:id', async (req, res) => {
+app.get('/api/is-collected/:id', isAuthenticated, async (req, res) => {
     // Get params
     let gameId = req.params.id;
     let userId = req.session.user;
@@ -333,7 +333,7 @@ app.get('/api/is-collected/:id', async (req, res) => {
 });
 
 // Author: Noah deFer
-app.get('/api/is-favorite/:id', async (req, res) => {
+app.get('/api/is-favorite/:id', isAuthenticated, async (req, res) => {
     // Get params
     let gameId = req.params.id;
     let userId = req.session.user;
@@ -366,7 +366,7 @@ app.get('/api/recent-games', isAuthenticated, async (req, res) => {
 });
 
 // Author: Noah deFer
-app.get('/api/user-collection', async (req, res) => {
+app.get('/api/user-collection', isAuthenticated, async (req, res) => {
     // Build SQL statement
     let sql = `
         SELECT collections.game_id, game_name
