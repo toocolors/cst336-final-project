@@ -1,0 +1,46 @@
+<!-- Head -->
+<%- include('partials/head.ejs') %>
+
+<!-- Stylesheet -->
+
+
+<body>
+    <main>
+        <!-- Main Headings -->
+        <div id="headingContainer">
+            <!-- Navigation -->
+            <form action="/home">
+                <button id="homeBtn">Home</button>
+            </form>
+            
+            <!-- Heading -->
+            <h1>GameQuest Tracker</h1>
+            
+            <!-- Logout -->
+            <form action="/logout">
+                <button id="logoutBtn">Logout</button>
+            </form>
+        </div>
+        <hr>
+        
+
+        <!-- Search Bar -->
+        <div id="searchContainer">
+            <input id="search" type="text" placeholder="Enter a game name." value="
+            <% if (typeof gameId !== 'undefined') { %>
+                <%= gameId %>
+            <% } %>
+            ">
+            <button id="searchBtn">Find Game</button>
+            <!-- Error Message -->
+            <span id="searchError"></span>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <%- include('partials/footer.ejs') %>
+
+    <!-- Scripts -->
+    <script src="/js/gameDetailsScript.js"></script>
+</body>
+</html>
