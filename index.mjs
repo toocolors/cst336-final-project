@@ -6,6 +6,8 @@ import session from 'express-session';
 
 // Global Constants
 const username_max = 8;
+const rawg_key = '72b5dccc903f4bb58b7a00204ba16857';
+const rawg_url = 'https://api.rawg.io/api/';
 
 // Setup app
 const app = express();
@@ -36,7 +38,137 @@ const pool = mysql.createPool({
 // const conn = await pool.getConnection();
 
 // Setup Routes
+// COLLECTION ROUTES
+// Author: Noah deFer
+app.post('/collect', isAuthenticated, async (req, res) => {
+    // Get game & user ID
+    let gameId = req.body.gameId
+    let userId = req.session.user;
+
+    // Add game to collection
+    // Build SQL
+    let sql = `
+        INSERT INTO collections (user_id, game_id)
+        VALUES (?, ?)`
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [userId, gameId]);
+
+    // Get game name
+    let name = await getGameById(gameId);
+    
+    // Redirect to Game Details
+    res.redirect(`/game/${name[0].game_name}`);
+});
+
+// Author: Noah deFer
+app.post('/uncollect', isAuthenticated, async (req, res) => {
+    // Get game & user ID
+    let gameId = req.body.gameId
+    let userId = req.session.user;
+
+    // Remove game from collection
+    // Build SQL
+    let sql = `
+        DELETE FROM collections
+        WHERE user_id = ? AND game_id = ?`;
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [userId, gameId]);
+    
+    // Get game name
+    let name = await getGameById(gameId);
+    
+    // Redirect to Game Details
+    res.redirect(`/game/${name[0].game_name}`);
+});
+
 // GAME ROUTES
+// Author: Noah deFer
+app.get('/game', isAuthenticated, async (req, res) => {
+    // Get input
+    let game = req.query.gameId;
+
+    // Try to get game data from database
+    // Build SQL
+    let sql = `
+        SELECT *
+        FROM games
+        WHERE game_id = ? OR game_name = ?`;
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [game, game]);
+
+    // Redirect to game/:id
+    if (rows.length > 0) {
+        res.redirect(`/game/${rows[0].game_name}`);
+    } else {
+        res.redirect(`/game/${game}`);
+    }
+});
+
+// Author: Noah deFer
+app.get('/game/:id', isAuthenticated, (req, res) => {
+    // Render gameDetails page
+    res.render('gameDetails', {
+        'gameId': req.params.id
+    });
+});
+
+// Author: Noah deFer
+app.get('/games', isAuthenticated, async (req, res) => {
+    // Render games page
+    res.render('games');
+});
+
+// FAVORITE ROUTES
+// Author: Noah deFer
+app.post('/favorite', isAuthenticated, async (req, res) => {
+    // Get game & user ID
+    let gameId = req.body.gameId
+    let userId = req.session.user;
+
+    // Get date
+    let date = new Date();
+    let today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+    // Add game to favorites
+    // Build SQL
+    let sql = `
+        INSERT INTO favorites (user_id, game_id, favorited_at)
+        VALUES (?, ?, ?)`
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [userId, gameId, today]);
+    
+    // Get game name
+    let name = await getGameById(gameId);
+    
+    // Redirect to Game Details
+    res.redirect(`/game/${name[0].game_name}`);
+});
+
+// Author: Noah deFer
+app.post('/unfavorite', isAuthenticated, async (req, res) => {
+    // Get game & user ID
+    let gameId = req.body.gameId
+    let userId = req.session.user;
+
+    //Remove game from favorites
+    // Build SQL
+    let sql = `
+        DELETE FROM favorites
+        WHERE user_id = ? AND game_id = ?`;
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [userId, gameId]);
+    
+    // Get game name
+    let name = await getGameById(gameId);
+    
+    // Redirect to Game Details
+    res.redirect(`/game/${name[0].game_name}`);
+});
 
 // LOGIN / LOGOUT ROUTES
 // Root
@@ -163,6 +295,60 @@ app.post('/signup', async (req, res) => {
 
 
 // API ROUTES
+// Author: Noah deFer
+app.get('/api/game/:id', isAuthenticated, async (req, res) => {
+    // Get params
+    let id = req.params.id;
+
+    // Get game details
+    let url = `${rawg_url}games/${id}?key=${rawg_key}`;
+    let response = await fetch(url);
+    let data = await response.json();
+
+    // Insert game into games table
+    let sql = `
+        INSERT IGNORE INTO games (game_id, game_name)
+        VALUES (?, ?)`;
+    const [rows] = await pool.query(sql, [data.id, data.name]);
+    
+    // Send game details
+    res.send(data);
+});
+
+// Author: Noah deFer
+app.get('/api/is-collected/:id', isAuthenticated, async (req, res) => {
+    // Get params
+    let gameId = req.params.id;
+    let userId = req.session.user;
+
+    // Check SQL favorites table
+    let sql = `
+        SELECT *
+        FROM collections
+        WHERE user_id = ? AND game_id = ?`;
+    const [rows] = await pool.query(sql, [userId, gameId]);
+
+    // Send result (true, false)
+    res.send(rows);
+});
+
+// Author: Noah deFer
+app.get('/api/is-favorite/:id', isAuthenticated, async (req, res) => {
+    // Get params
+    let gameId = req.params.id;
+    let userId = req.session.user;
+
+    // Check SQL favorites table
+    let sql = `
+        SELECT *
+        FROM favorites
+        WHERE user_id = ? AND game_id = ?`;
+    const [rows] = await pool.query(sql, [userId, gameId]);
+
+    // Send result (true, false)
+    res.send(rows);
+});
+
 // Author: Jian Mitchell
 app.get('/api/recent-games', isAuthenticated, async (req, res) => {
    try {
@@ -178,6 +364,23 @@ app.get('/api/recent-games', isAuthenticated, async (req, res) => {
        console.error('Error fetching recent games:', error);
    }
 });
+
+// Author: Noah deFer
+app.get('/api/user-collection', isAuthenticated, async (req, res) => {
+    // Build SQL statement
+    let sql = `
+        SELECT collections.game_id, game_name
+        FROM collections
+        INNER JOIN games ON collections.game_id = games.game_id
+        WHERE user_id = ?
+        ORDER BY game_name`;
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [req.session.user]);
+
+    // Return result
+    res.send(rows);
+})
 
 // TEST ROUTES
 // dbTest
@@ -202,6 +405,27 @@ app.listen(3000, () => {
 
 // Functions
 /**
+ * Gets the information of a game from the database
+ *  based on the passed in ID.
+ * Author: Noah deFer
+ * @param {Integer} id The ID of a game.
+ * @returns The response from the SQL server.
+ */
+async function getGameById(id) {
+    // Build SQL Statement
+    let sql = `
+        SELECT *
+        FROM games
+        WHERE game_id = ?`;
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [id]);
+
+    // Return result
+    return rows;
+} // getGameById
+
+/**
  * Gets the information of a user from the database,
  *  based on the passed in ID.
  * Author: Noah deFer
@@ -210,7 +434,6 @@ app.listen(3000, () => {
  */
 async function getUserById(id) {
     // Build SQL Statement
-    // There was a typo in this line (form - from) - jian
     let sql = `
         SELECT *
         FROM users
@@ -252,9 +475,8 @@ async function createUser(username, hash) {
         VALUES (?, ?)
     `
     const [result] = await pool.query(sql, [username, hash])
-    return result
+    return result;
 }
-
 
 /**
  * Checks if the current session is authenticated.
