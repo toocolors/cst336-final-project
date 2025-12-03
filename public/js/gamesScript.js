@@ -51,7 +51,7 @@ async function updateCollection() {
 
         // Add game to collection container
         collectionContainer.innerHTML += `
-            <a href='/game/${game.game_id}'>${game.game_name}</a>
+            <a href='/game?gameId=${game.game_id}'>${game.game_name}</a>
             <br>`;
     }
 } // updateCollection
