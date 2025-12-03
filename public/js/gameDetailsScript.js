@@ -264,7 +264,6 @@ async function isCollected(id) {
     // Check database
     let response = await fetch(`/api/is-collected/${id}`);
     let data = await response.json();
-    console.log('Collected:', data);
 
     // Check length of response
     if (data.length > 0) {
