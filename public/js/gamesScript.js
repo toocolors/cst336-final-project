@@ -28,6 +28,9 @@ async function updateCollection() {
     
     // Update Collection container
     let collectionContainer = document.querySelector('#collection');
+    if (collection.length == 0) {
+        collectionContainer.innerHTML += 'Your collection is empty!';
+    }
     for (let i = 0; i < collection.length; i++) {
         // Get game
         let game = collection[i];
