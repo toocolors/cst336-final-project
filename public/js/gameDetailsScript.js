@@ -113,13 +113,27 @@ async function displayGameDetails() {
     let release = document.querySelector('#release');
 
     // Ratings
-    let ratings = document.querySelector('#ratings');
-    ratings.innerHTML = '<h3>Ratings</h3>';
+    // Fill and sort ratings array
+    let titles = ['exceptional', 'recommended', 'meh', 'skip'];
+    let ratings = ['Exceptional', 'Recommended', 'Meh', 'Skip'];
     for (let i = 0; i < game.ratings.length; i++) {
+        // Get Rating
         let rating = game.ratings[i];
-        ratings.innerHTML += `
-            ${rating.title}: ${rating.count} (${rating.percent}%)
-            <br>`
+
+        // Get rating index
+        let index = titles.indexOf(rating.title);
+
+        // Update rating array
+        ratings[index] += `: ${rating.count} (${rating.percent}%)`;
+    }
+
+    // Update ratingsContainer
+    let ratingsContainer = document.querySelector('#ratings');
+    ratings.innerHTML = '<h3>Ratings</h3>';
+    for (let i = 0; i < ratings.length; i++) {
+        ratingsContainer.innerHTML += `
+            ${ratings[i]}
+            <br>`;
     }
 
     // Developers
