@@ -204,6 +204,26 @@ async function getGameFromStorage(name) {
 }
 
 /**
+ * Checks if the passed in game id is in the user's collection.
+ * Author: Noah deFer
+ * @param {Integer} id The id of a game.
+ * @returns True = in collection, False = not in collection
+ */
+async function isCollected(id) {
+    // Check database
+    let response = await fetch(`/api/is-collected/${id}`);
+    let data = await response.json();
+    console.log(data);
+
+    // Check length of response
+    if (data.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+} // isCollected
+
+/**
  * Checks if the passed in game id is favorited by the user.
  * Author: Noah deFer
  * @param {Integer} id The id of a game.
