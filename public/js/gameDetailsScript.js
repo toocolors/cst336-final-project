@@ -129,7 +129,7 @@ async function displayGameDetails() {
 
     // Update ratingsContainer
     let ratingsContainer = document.querySelector('#ratings');
-    ratings.innerHTML = '<h3>Ratings</h3>';
+    ratingsContainer.innerHTML = '<h3>Ratings</h3>';
     for (let i = 0; i < ratings.length; i++) {
         ratingsContainer.innerHTML += `
             ${ratings[i]}
