@@ -77,13 +77,13 @@ async function displayGameDetails() {
     // Collection Button
     let collectionBtn = document.querySelector('#collectionBtn');
     let collectionForm = document.querySelector('#collectionForm');
-    document.querySelector('#favoriteId').value = game.id;
+    document.querySelector('#collectionId').value = game.id;
     if (await isCollected(game.id)) {
         collectionBtn.textContent = 'Remove from Collection';
-        favoriteForm.action = '/uncollect';
+        collectionForm.action = '/uncollect';
     } else {
         collectionBtn.textContent = 'Add to Collection'
-        favoriteForm.action = '/collect';
+        collectionForm.action = '/collect';
     }
 
     // Image
@@ -220,7 +220,7 @@ async function isCollected(id) {
     // Check database
     let response = await fetch(`/api/is-collected/${id}`);
     let data = await response.json();
-    console.log(data);
+    console.log('Collected:', data);
 
     // Check length of response
     if (data.length > 0) {
@@ -240,7 +240,6 @@ async function isFavorite(id) {
     // Check database
     let response = await fetch(`/api/is-favorite/${id}`);
     let data = await response.json();
-    console.log(data);
 
     // Check length of response
     if (data.length > 0) {

@@ -38,6 +38,43 @@ const pool = mysql.createPool({
 // const conn = await pool.getConnection();
 
 // Setup Routes
+// COLLECTION ROUTES
+app.post('/collect', async (req, res) => {
+    // Get game & user ID
+    let gameId = req.body.gameId
+    let userId = req.session.user;
+
+    // Add game to collection
+    // Build SQL
+    let sql = `
+        INSERT INTO collections (user_id, game_id)
+        VALUES (?, ?)`
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [userId, gameId]);
+    
+    // Redirect to game/:id
+    res.redirect(`/game/${gameId}`);
+});
+
+app.post('/uncollect', async (req, res) => {
+    // Get game & user ID
+    let gameId = req.body.gameId
+    let userId = req.session.user;
+
+    // Remove game from collection
+    // Build SQL
+    let sql = `
+        DELETE FROM collections
+        WHERE user_id = ? AND game_id = ?`;
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [userId, gameId]);
+    
+    // Redirect to game/:id
+    res.redirect(`/game/${gameId}`);
+});
+
 // GAME ROUTES
 app.get('/game/:id', (req, res) => {
     // Renger gameDetails page
@@ -73,9 +110,8 @@ app.post('/unfavorite', async (req, res) => {
     // Get game & user ID
     let gameId = req.body.gameId
     let userId = req.session.user;
-    console.log(gameId, userId);
 
-    // Add game to favorites
+    //Remove game from favorites
     // Build SQL
     let sql = `
         DELETE FROM favorites
