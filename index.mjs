@@ -82,12 +82,18 @@ app.post('/uncollect', async (req, res) => {
 });
 
 // GAME ROUTES
+// Author: Noah deFer
 app.get('/game/:id', (req, res) => {
-    console.log(req.params.id);
     // Render gameDetails page
     res.render('gameDetails', {
         'gameId': req.params.id
     });
+});
+
+// Author: Noah deFer
+app.get('/games', async (req, res) => {
+    // Render games page
+    res.render('games');
 });
 
 // FAVORITE ROUTES
