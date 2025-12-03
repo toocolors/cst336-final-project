@@ -86,6 +86,18 @@ async function displayGameDetails() {
         collectionForm.action = '/collect';
     }
 
+    // Quests Button
+    let questsForm = document.querySelector('#questsForm');
+    document.querySelector('#questsId').value = game.id;
+    // Update action when quests page is ready.
+    // questsForm.action = '/???';
+
+    // Review Button
+    let reviewsForm = document.querySelector('#reviewsForm');
+    document.querySelector('#reviewsId').value = game.id;
+    // Update action when reviews page is ready.
+    // reviewsForm.action = '/???';
+
     // Image
     let img = document.querySelector('#gameImgContainer');
     img.innerHTML = `<img
