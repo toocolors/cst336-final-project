@@ -78,6 +78,13 @@ async function displayGameDetails() {
     let collectionBtn = document.querySelector('#collectionBtn');
     let collectionForm = document.querySelector('#collectionForm');
     document.querySelector('#favoriteId').value = game.id;
+    if (await isCollected(game.id)) {
+        collectionBtn.textContent = 'Remove from Collection';
+        favoriteForm.action = '/uncollect';
+    } else {
+        collectionBtn.textContent = 'Add to Collection'
+        favoriteForm.action = '/collect';
+    }
 
     // Image
     let img = document.querySelector('#gameImgContainer');
