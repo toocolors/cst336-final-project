@@ -26,12 +26,15 @@
 
         <!-- Search Bar -->
         <div id="searchContainer">
-            <input id="search" type="text" placeholder="Enter a game name." value="
-            <% if (typeof gameId !== 'undefined') { %>
-                <%= gameId %>
-            <% } %>
-            ">
-            <button id="searchBtn">Find Game</button>
+            <form action="/game">
+                <input id="search" name="gameId" type="text" placeholder="Enter a game name." value="
+                <% if (typeof gameId !== 'undefined') { %>
+                    <%= gameId %>
+                <% } %>
+                ">
+                <button id="searchBtn">Find Game</button>
+            </form>
+            
             <!-- Error Message -->
             <span id="searchError"></span>
         </div>

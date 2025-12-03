@@ -1,4 +1,18 @@
 // Add Event Listeners
+document.querySelector('#searchBtn').addEventListener('click', (e) => {
+    // get input
+    let searchBar = document.querySelector('#search');
+    let input = searchBar.value;
+
+    // trim input
+    input = input.trim();
+    searchBar = input;
+
+    // Check if input is valid
+    if (input == '') {
+        e.preventDefault();
+    }
+});
 
 // Call functions
 updateCollection();

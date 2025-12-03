@@ -83,6 +83,31 @@ app.post('/uncollect', async (req, res) => {
 
 // GAME ROUTES
 // Author: Noah deFer
+app.get('/game', async (req, res) => {
+    // Get input
+    let game = req.query.gameId;
+    console.log(`Getting ${game}`);
+
+    // Try to get game data from database
+    // Build SQL
+    let sql = `
+        SELECT *
+        FROM games
+        WHERE game_id = ? OR game_name = ?`;
+
+    // Execute SQL
+    const [rows] = await pool.query(sql, [game, game]);
+    console.log(rows);
+
+    // Redirect to game/:id
+    if (rows.length > 0) {
+        res.redirect(`/game/${rows[0].game_name}`);
+    } else {
+        res.redirect(`/game/${game}`);
+    }
+});
+
+// Author: Noah deFer
 app.get('/game/:id', (req, res) => {
     // Render gameDetails page
     res.render('gameDetails', {
@@ -339,7 +364,6 @@ app.get('/api/recent-games', isAuthenticated, async (req, res) => {
 });
 
 app.get('/api/user-collection', async (req, res) => {
-    console.log('Getting user collection...')
     // Build SQL statement
     let sql = `
         SELECT collections.game_id, game_name
@@ -350,7 +374,6 @@ app.get('/api/user-collection', async (req, res) => {
 
     // Execute SQL
     const [rows] = await pool.query(sql, [req.session.user]);
-    console.log(rows);
 
     // Return result
     res.send(rows);
