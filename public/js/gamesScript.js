@@ -4,6 +4,11 @@
 updateCollection();
 
 // Functions
+/**
+ * Gets a list of games in the users collection.
+ * Author: Noah deFer
+ * @returns A JSON containing the games in the user's collecton.
+ */
 async function getCollection() {
     // Get user collection
     let response = await fetch('/api/user-collection');
@@ -11,8 +16,12 @@ async function getCollection() {
 
     // Return data
     return data;
-}
+} // getCollection
 
+/**
+ * Populates the user's collection list.
+ * Author: Noah deFer
+ */
 async function updateCollection() {
     // Get user collection
     let collection = await getCollection();
@@ -28,4 +37,4 @@ async function updateCollection() {
             <a href='/game/${game.game_id}'>${game.game_name}</a>
             <br>`;
     }
-}
+} // updateCollection
