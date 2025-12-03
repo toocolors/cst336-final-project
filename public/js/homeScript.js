@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   loadFunFact();
   loadRecentGames();
+  displayLastViewedGame();
 
   setupEventListeners();
 });
@@ -94,6 +95,7 @@ function displayRecentGames(games) {
     html += `
     <div class="home-game-item">
       <strong>${games[i].game_name}</strong>
+      <button class="home-view-btn" onclick="viewGame(${games[i].game_id}, '${games[i].game_name}')">View</button>
     </div>
     `;
   }
@@ -102,7 +104,75 @@ function displayRecentGames(games) {
 }
 
 /**
- * Stores the last viewed game in localStorage (NOT IN USE)
+ * Handles viewing a game (stores it as last viewed)
+ * @param {number} gameId - The game's ID
+ * @param {string} gameName - The game's name
+ */
+function viewGame(gameId, gameName) {
+  const game = {
+    game_id: gameId,
+    game_name: gameName,
+    viewed_at: new Date().toISOString()
+  }
+
+  storeLastViewedGame(game);
+
+  displayLastViewedGame();
+
+  const messageContainer = document.getElementById('homeMessage');
+
+  if (messageContainer) {
+    messageContainer.innerHTML = `Marked "${gameName}" as last viewed!`;
+    messageContainer.className = 'home-message-container show success';
+
+    setTimeout(() => {
+      messageContainer.className = 'home-message-container'
+    }, 3000);
+  }
+}
+
+/**
+ * Displays the last viewed game from localStorage
+ */
+function displayLastViewedGame() {
+ const lastGame = getLastViewedGame();
+ const recentActivitySection = document.querySelector('.home-recent-activity');
+
+ const existingSection = document.getElementById('lastViewedSection');
+ if (existingSection) {
+   existingSection.remove();
+ }
+
+ if (lastGame) {
+   const lastViewedHTML = `
+   <div id="lastViewedSection" class="home-last-viewed">
+        <h4 class="home-last-viewed-title">Continue Where You Left Off:</h4>
+        <div class="home-last-viewed-game">
+            <strong>${lastGame.game_name}</strong>
+            <span class="home-last-viewed-time">Viewed: ${formatLastViewedTime(lastGame.viewed_at)}</span>
+            <button class="home-clear-btn" onclick="clearLastViewedGame()">Clear</button>
+        </div> 
+   </div>
+   `;
+
+   recentActivitySection.innerHTML = lastViewedHTML + recentActivitySection.innerHTML;
+ }
+}
+
+/**
+ * Clears the last viewed game from localStorage
+ */
+function clearLastViewedGame() {
+  try {
+    localStorage.removeItem('lastViewedGame');
+    displayLastViewedGame();
+  } catch (error) {
+    console.error('Error clearing last viewed game:', error);
+  }
+}
+
+/**
+ * Stores the last viewed game in localStorage
  * @param {Object} game - Game object to store
  */
 function storeLastViewedGame(game) {
@@ -113,8 +183,29 @@ function storeLastViewedGame(game) {
   }
 }
 
+function formatLastViewedTime(isoString) {
+  const viewedDate = new Date(isoString);
+  const now = new Date();
+  const diffMs = now - viewedDate;
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+
+  if (diffMins < 1) {
+    return 'Just now';
+  } else if (diffMins < 60) {
+    return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+  } else if (diffHours < 24) {
+    return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+  } else if (diffDays < 7) {
+    return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+  } else {
+    return viewedDate.toLocaleDateString();
+  }
+}
+
 /**
- * Retrieves the last viewed game from localStorage (NOT IN USE)
+ * Retrieves the last viewed game from localStorage
  * @returns {Object|null} - Last viewed game object or null
  */
 function getLastViewedGame() {
@@ -127,8 +218,11 @@ function getLastViewedGame() {
   }
 }
 
+
+// The following code below is for a form that may or may not get added
+
 /**
- * Validates form input (NOT IN USE)
+ * Validates form input
  * @param {string} value - Value to validate
  * @param {number} minLength - Minimum length
  * @param {number} maxLength - Maximum length
@@ -158,7 +252,7 @@ function displayError(message, container) {
 }
 
 /**
- * Displays a success message to the user (NOT IN USE)
+ * Displays a success message to the user
  * @param {string} message - Success message to display
  * @param {HTMLElement} container - Container element to display message in
  */
@@ -166,4 +260,21 @@ function displaySuccess(message, container) {
   if (container) {
     container.innerHTML = `<p class="home-success">${message}</p>`;
   }
+}
+
+/**
+ * Validates and displays a user input form (example usage)
+ * @param {string} inputValue - The input to validate
+ * @param {HTMLElement} messageContainer - Where to show messages
+ * @returns {boolean} - Whether validation passed
+ */
+
+function validateAndDisplayMessage(inputValue, messageContainer) {
+  if (!validateInput(inputValue, 3, 100)) {
+    displayError('Input must be between 3-100 characters', messageContainer);
+    return false;
+  }
+
+  displaySuccess('Input is valid!', messageContainer);
+  return true;
 }

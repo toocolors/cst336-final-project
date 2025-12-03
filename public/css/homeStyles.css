@@ -120,7 +120,6 @@
   border: none;
 }
 
-
 .home-btn-secondary:hover {
   background: #8fd3ff;
 }
@@ -148,10 +147,75 @@
 .home-game-item {
   padding: 10px;
   border-bottom: 1px solid #555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .home-game-item:last-child {
   border-bottom: none;
+}
+
+.home-view-btn {
+  background-color: #66c0f4;
+  color: #1e1e2b;
+  padding: 5px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.home-view-btn:hover {
+  background-color: #8fd3ff;
+}
+
+/* Last Viewed Section */
+.home-last-viewed {
+  background-color: #3a3a4f;
+  border: 1px solid #66c0f4;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+}
+
+.home-last-viewed-title {
+  font-size: 16px;
+  color: #66c0f4;
+  margin: 0 0 10px 0;
+}
+
+.home-last-viewed-game {
+  background-color: #2a2a3b;
+  padding: 10px;
+  border: 1px solid #66c0f4;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home-last-viewed-time {
+  color: #adb5bd;
+  font-size: 12px;
+  font-style: italic;
+  margin-left: 10px;
+}
+
+.home-clear-btn {
+  background-color: #666;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.home-clear-btn:hover {
+  background-color: #888;
 }
 
 /* messages */
@@ -170,6 +234,24 @@
   font-weight: bold;
 }
 
+.home-message-container {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-align: center;
+  display: none; /* Hidden by default */
+}
+
+.home-message-container.show {
+  display: block;
+}
+
+.home-message-container.success {
+  background-color: #2a4a2a;
+  border: 1px solid #66ff99;
+  color: #66ff99;
+}
+
 /* footer stays normal */
 footer {
   text-align: center;
@@ -180,4 +262,3 @@ footer figure img {
   display: block;
   margin: 0 auto;
 }
-
