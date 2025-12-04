@@ -2,6 +2,7 @@
 <%- include('partials/head.ejs') %>
 
 <!-- Stylesheet -->
+<link rel="stylesheet" href="/css/gamesStyles.css">
 
 
 <body>
@@ -27,11 +28,8 @@
         <!-- Search Bar -->
         <div id="searchContainer">
             <form action="/game">
-                <input id="search" name="gameId" type="text" placeholder="Enter a game name." value="
-                <% if (typeof gameId !== 'undefined') { %>
-                    <%= gameId %>
-                <% } %>
-                ">
+                <input id="search" name="gameId" type="text" placeholder="Enter a game name." value="<%= typeof gameId !== 'undefined' ? gameId : '' %>">
+
                 <button id="searchBtn">Find Game</button>
             </form>
             
