@@ -30,9 +30,12 @@ footer {
 }
 
 footer hr {
+  position: relative;
+  left: 50%;
   width: 100vw;
   margin: 20px 0;
   border: none;
   border-top: 1px solid #555;
-  transform: translateX(calc(-50vw + 50%));
+  transform: translateX(-50%);
 }
+

@@ -1,52 +1,55 @@
 <!-- Head -->
 <%- include('partials/head.ejs') %>
 
-<!-- Stylesheet -->
-<link rel="stylesheet" href="/css/gamesStyles.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/css/gamesStyles.css">
 
 
-<body>
-    <main>
-        <!-- Main Headings -->
-        <div id="headingContainer">
-            <!-- Navigation -->
-            <form action="/home">
-                <button id="homeBtn">Home</button>
-            </form>
+    <body>
+        <main>
+            <!-- Main Headings -->
+            <div id="headingContainer">
+                <!-- Navigation -->
+                <form action="/home">
+                    <button id="homeBtn">Home</button>
+                </form>
+
+                <!-- Heading -->
+                <h1>GameQuest Tracker</h1>
+
+                <!-- Logout -->
+                <form action="/logout">
+                    <button id="logoutBtn">Logout</button>
+                </form>
+            </div>
             
-            <!-- Heading -->
-            <h1>GameQuest Tracker</h1>
-            
-            <!-- Logout -->
-            <form action="/logout">
-                <button id="logoutBtn">Logout</button>
-            </form>
-        </div>
-        <hr>
-        
 
-        <!-- Search Bar -->
-        <div id="searchContainer">
-            <form action="/game">
-                <input id="search" name="gameId" type="text" placeholder="Enter a game name." value="<%= typeof gameId !== 'undefined' ? gameId : '' %>">
 
-                <button id="searchBtn">Find Game</button>
-            </form>
-            
-            <!-- Error Message -->
-            <span id="searchError"></span>
-        </div>
+            <!-- Search Bar -->
+            <div id="searchContainer" class="games-page-search">
+                <form action="/game" id="searchForm">
+                    <input id="search" name="gameId" type="text" placeholder="Enter a game name..."
+                        value="<%= typeof gameId !== 'undefined' ? gameId : '' %>">
 
-        <!-- Collection -->
-        <div id="collection">
-            <h3>Your Collection:</h3>
-        </div>
-    </main>
+                    <button id="searchBtn">Find Game</button>
+                </form>
 
-    <!-- Footer -->
-    <%- include('partials/footer.ejs') %>
+                <span id="searchError"></span>
+            </div>
 
-    <!-- Scripts -->
-    <script src="/js/gamesScript.js"></script>
-</body>
-</html>
+
+
+            <!-- Collection -->
+            <div id="collection">
+                <h3>Your Collection:</h3>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <%- include('partials/footer.ejs') %>
+
+            <!-- Scripts -->
+            <script src="/js/gamesScript.js"></script>
+    </body>
+
+    </html>

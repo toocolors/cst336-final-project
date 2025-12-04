@@ -1,100 +1,108 @@
 <!-- Head -->
 <%- include('partials/head.ejs') %>
 
-<!-- Stylesheet -->
-<link rel="stylesheet" href="/css/gamesStyles.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/css/gamesStyles.css">
 
 
-<body>
-    <main>
-        <!-- Main Headings -->
-        <div id="headingContainer">
-            <!-- Navigation -->
-            <div id="navigationContainer">
-                <form action="/home">
-                    <button id="homeBtn">Home</button>
-                </form>
-                <form action="/games">
-                    <button id="gamesBtn">Games</button>
+    <body>
+        <main>
+            <!-- Main Headings -->
+            <div id="headingContainer">
+                <!-- Navigation -->
+                <div id="navigationContainer">
+                    <form action="/home">
+                        <button id="homeBtn">Home</button>
+                    </form>
+                    <form action="/games">
+                        <button id="gamesBtn">Games</button>
+                    </form>
+                </div>
+
+                <!-- Heading -->
+                <h1>GameQuest Tracker</h1>
+
+                <!-- Logout -->
+                <form action="/logout">
+                    <button id="logoutBtn">Logout</button>
                 </form>
             </div>
-            
-            <!-- Heading -->
-            <h1>GameQuest Tracker</h1>
-            
-            <!-- Logout -->
-            <form action="/logout">
-                <button id="logoutBtn">Logout</button>
-            </form>
-        </div>
-        <hr>
-        
 
-        <!-- Search Bar -->
-        <div id="searchContainer">
-            <input id="search" type="text" placeholder="Enter a game name." value="
+
+            <!-- Search Bar -->
+            <div id="searchContainer">
+                <input id="search" type="text" placeholder="Enter a game name." value="
             <% if (typeof gameId !== 'undefined') { %>
                 <%= gameId %>
             <% } %>
             ">
-            <button id="searchBtn">Find Game</button>
-            <!-- Error Message -->
-            <span id="searchError"></span>
-        </div>
+                <button id="searchBtn">Find Game</button>
+                <!-- Error Message -->
+                <span id="searchError"></span>
+            </div>
 
-        <!-- Game Info -->
-        <!-- Game Name / Buttons -->
-        <div id="gameHeadingContainer">
-            <form id="favoriteForm" action="#" method="POST">
-                <input id="favoriteId" name="gameId" type="hidden" value="">
-                <button id="favoriteBtn">Favorite</button>
-            </form>
+            <!-- Game Info -->
+            <!-- Game Name / Buttons -->
+            <div id="gameHeadingContainer">
+                <div class="details-menu">
 
-            <form id="collectionForm" action="#" method="POST">
-                <input id="collectionId" name="gameId" type="hidden" value="">
-                <button id="collectionBtn">Add to Collection</button>
-            </form>
-            
-            <h2 id="gameName"></h2>
+                    <div class="details-left">
+                        <form id="favoriteForm" action="#" method="POST">
+                            <input id="favoriteId" name="gameId" type="hidden" value="">
+                            <button id="favoriteBtn">Favorite</button>
+                        </form>
 
-            <form id="questsForm" action="#">
-                <input id="questsId" name="gameId" type="hidden" value="">
-                <button id="questsBtn">Quests</button>
-            </form>
+                        <form id="collectionForm" action="#" method="POST">
+                            <input id="collectionId" name="gameId" type="hidden" value="">
+                            <button id="collectionBtn">Add to Collection</button>
+                        </form>
+                    </div>
 
-            <form id="reviewsForm" action="#">
-                <input id="reviewsId" name="gameId" type="hidden" value="">
-                <button id="reviewsBtn">Review</button>
-            </form>
-            
-        </div>
+                    <h2 id="gameName"></h2>
 
-        <!-- Image -->
-        <div id="gameImgContainer"></div>
+                    <div class="details-right">
+                        <form id="questsForm" action="#">
+                            <input id="questsId" name="gameId" type="hidden" value="">
+                            <button id="questsBtn">Quests</button>
+                        </form>
 
-        <!-- Description -->
-        <div id="gameDesc"></div>
+                        <form id="reviewsForm" action="#">
+                            <input id="reviewsId" name="gameId" type="hidden" value="">
+                            <button id="reviewsBtn">Review</button>
+                        </form>
+                    </div>
 
-        <!-- Release Date -->
-        <h3 id="release"></h3>
+                </div>
+            </div>
 
-        <!-- Ratings -->
-        <div id="ratings"></div>
 
-        <!-- Developers -->
-        <div id="developers"></div>
+            <!-- Image -->
+            <div id="gameImgContainer"></div>
 
-        <!-- Publishers -->
-        <div id="publishers"></div>
+            <!-- Description -->
+            <div id="gameDesc"></div>
 
-        <!-- Genres -->
-        <div id="genres"></div>
-    </main>
+            <!-- Release Date -->
+            <h3 id="release"></h3>
 
-    <!-- Footer -->
-    <%- include('partials/footer.ejs') %>
+            <!-- Ratings -->
+            <div id="ratings"></div>
 
-    <!-- Scripts -->
-    <script src="/js/gameDetailsScript.js"></script>
-</body>
-</html>
+            <!-- Developers -->
+            <div id="developers"></div>
+
+            <!-- Publishers -->
+            <div id="publishers"></div>
+
+            <!-- Genres -->
+            <div id="genres"></div>
+        </main>
+
+        <!-- Footer -->
+        <%- include('partials/footer.ejs') %>
+
+            <!-- Scripts -->
+            <script src="/js/gameDetailsScript.js"></script>
+    </body>
+
+    </html>
