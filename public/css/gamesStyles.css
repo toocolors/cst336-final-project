@@ -1,0 +1,304 @@
+/**
+ * gamesStyles.css - Stylesheet for Game Pages Only
+ * Authors: Suhaib Peracha
+ */
+
+/* page background */
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: 'Trebuchet MS', Arial;
+    background: #1e1e2b;
+    color: #f5f5f5;
+  }
+  
+  /* main wrapper */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  
+  /* top header */
+  #headingContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #66c0f4;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+  }
+  
+  #headingContainer h1 {
+    color: #66c0f4;
+    margin: 0;
+    font-size: 32px;
+  }
+  
+  #headingContainer button {
+    background: #66c0f4;
+    color: #1e1e2b;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  #headingContainer button:hover {
+    background: #8fd3ff;
+  }
+  
+  /* search area */
+  #searchContainer {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+  }
+  
+  #search {
+    flex: 1;
+    padding: 10px;
+    background: #3a3a4f;
+    border: 1px solid #555;
+    border-radius: 6px;
+    color: white;
+  }
+  
+  #searchBtn {
+    background: #66c0f4;
+    color: #1e1e2b;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  #searchBtn:hover {
+    background: #8fd3ff;
+  }
+  
+  #searchError {
+    color: #ff6b6b;
+    font-weight: bold;
+  }
+  
+  /* collection list */
+  #collection {
+    background: #2a2a3b;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.35);
+  }
+  
+  #collection h3 {
+    color: #66c0f4;
+    margin-bottom: 15px;
+  }
+
+  /* nicer collection links */
+#collection a {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #3a3a4f;
+    color: #8fd3ff;
+    border-radius: 6px;
+    margin: 5px 8px 5px 0;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+#collection a:hover {
+    background: #505072;
+    color: #fff;
+}
+
+  
+  /* gameDetails styles */
+  #gameImgContainer img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  #gameDesc {
+    background: #2a2a3b;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  #ratings,
+  #developers,
+  #publishers,
+  #genres {
+    background: #2a2a3b;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  #gameHeadingContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  #gameHeadingContainer button {
+    background: #66c0f4;
+    color: #1e1e2b;
+    font-weight: bold;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  #gameHeadingContainer button:hover {
+    background: #8fd3ff;
+  }
+  
+  /* ==== GAMES PAGE ONLY ==== */
+.games-page-search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 25px 0 35px 0;
+}
+
+/* Search form layout (games page only) */
+.games-page-search #searchForm {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 700px;
+}
+
+/* Bigger search input */
+.games-page-search #search {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 16px;
+    background: #3a3a4f;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 8px;
+}
+
+/* Bigger button */
+.games-page-search #searchBtn {
+    padding: 12px 20px;
+    background: #66c0f4;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #1e1e2b;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.games-page-search #searchBtn:hover {
+    background: #8fd3ff;
+}
+
+/* Error styling */
+.games-page-search #searchError {
+    margin-top: 10px;
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+/* ================================
+   GAME DETAILS MENU LAYOUT
+   ================================ */
+
+   .details-menu {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* center title */
+    margin: 20px 0 30px 0;
+    position: relative; /* allows absolute children */
+}
+
+/* left cluster */
+.details-left {
+    position: absolute;
+    left: 0;
+    display: flex;
+    gap: 12px;
+}
+
+/* right cluster */
+.details-right {
+    position: absolute;
+    right: 0;
+    display: flex;
+    gap: 12px;
+}
+
+/* title centered perfectly */
+#gameName {
+    text-align: center;
+    color: #66c0f4;
+    font-size: 26px;
+    margin: 0 auto;
+    white-space: nowrap;
+}
+
+/* make only THIS menu's buttons styled consistently */
+.details-left button,
+.details-right button {
+    background: #66c0f4;
+    color: #1e1e2b;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.details-left button:hover,
+.details-right button:hover {
+    background: #8fd3ff;
+}
+
+/* =======================================
+   RESPONSIVE FIX FOR GAME DETAILS HEADER
+   ======================================= */
+   @media (max-width: 900px) {
+    .details-menu {
+        flex-direction: column;
+        gap: 12px;
+        position: static;
+    }
+
+    .details-left,
+    .details-right {
+        position: static;
+        justify-content: center;
+    }
+
+    #gameName {
+        font-size: 22px;
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .details-left button,
+    .details-right button {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    #gameName {
+        font-size: 20px;
+        white-space: normal; /* allow wrapping instead of squeezing */
+    }
+}
