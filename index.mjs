@@ -273,6 +273,67 @@ app.get('/home', isAuthenticated, async (req, res) => {
 // QUEST ROUTES
 
 // REVIEW ROUTES
+// show reviews page for a specific game
+app.get('/reviews/:gameId', isAuthenticated, async (req, res) => {
+    const gameId = req.params.gameId;
+    res.render('reviews', { gameId });
+});
+
+// get list of reviews for a game (JSON)
+app.get('/api/reviews/:gameId', isAuthenticated, async (req, res) => {
+    const gameId = req.params.gameId;
+
+    const sql = `
+        SELECT reviews.review_id, reviews.rating, reviews.review_text, reviews.created_at,
+               users.username
+        FROM reviews
+        INNER JOIN users ON reviews.user_id = users.user_id
+        WHERE game_id = ?
+        ORDER BY created_at DESC
+    `;
+
+    const [rows] = await pool.query(sql, [gameId]);
+    res.json(rows);
+});
+
+app.post('/reviews', isAuthenticated, async (req, res) => {
+    const userId = req.session.user;
+    const { gameId, rating, review_text } = req.body;
+
+    if (!rating || rating < 1 || rating > 10) {
+        return res.status(400).send('Invalid rating.');
+    }
+
+    const sql = `
+        INSERT INTO reviews (user_id, game_id, rating, review_text)
+        VALUES (?, ?, ?, ?)
+    `;
+
+    await pool.query(sql, [userId, gameId, rating, review_text]);
+
+    res.redirect(`/reviews/${gameId}`);
+});
+
+// REVIEWS HUB PAGE
+app.get('/reviews', isAuthenticated, async (req, res) => {
+    const userId = req.session.user;
+
+    const sql = `
+        SELECT r.review_id, r.rating, r.review_text, r.created_at,
+               g.game_id, g.game_name,
+               u.username
+        FROM reviews r
+        JOIN games g ON r.game_id = g.game_id
+        JOIN users u ON r.user_id = u.user_id
+        ORDER BY r.created_at DESC
+        LIMIT 20;
+    `;
+
+    const [rows] = await pool.query(sql);
+
+    res.render('reviewsHome', { reviews: rows });
+});
+
 
 // SIGNUP ROUTES
 // Author: Suhaib Peracha
