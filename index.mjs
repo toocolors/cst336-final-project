@@ -94,7 +94,7 @@ app.get('/game', isAuthenticated, async (req, res) => {
     let sql = `
         SELECT *
         FROM games
-        WHERE game_id = ? OR game_name = ?`;
+        WHERE (game_id = ? OR game_name = ?) AND game_id != 0`;
 
     // Execute SQL
     const [rows] = await pool.query(sql, [game, game]);

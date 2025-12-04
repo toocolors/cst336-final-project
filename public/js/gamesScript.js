@@ -6,7 +6,7 @@ document.querySelector('#searchBtn').addEventListener('click', (e) => {
 
     // trim input
     input = input.trim();
-    searchBar = input;
+    searchBar.value = input;
 
     // Check if input is valid
     if (input == '') {
