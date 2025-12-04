@@ -1,0 +1,51 @@
+<!-- Head -->
+<%- include('partials/head.ejs') %>
+
+<link rel="stylesheet" href="/css/favoritesStyles.css">
+
+<body>
+    <main>
+
+        <!-- Header -->
+        <div id="headingContainer">
+            <div id="navigationContainer">
+                <form action="/home">
+                    <button id="homeBtn">Home</button>
+                </form>
+                <form action="/games">
+                    <button id="gamesBtn">Games</button>
+                </form>
+                <form action="/favorites">
+                    <button id="favoritesBtn">Favorites</button>
+                </form>
+            </div>
+
+            <h1>GameQuest Tracker</h1>
+
+            <form action="/logout">
+                <button id="logoutBtn">Logout</button>
+            </form>
+        </div>
+
+        <!-- Title -->
+        <h2 id="favTitle">Your Favorites</h2>
+
+        <!-- Favorites List -->
+        <div id="favoritesContainer">
+            <% if (favorites.length === 0) { %>
+                <p class="noFavs">You have no favorites yet.</p>
+            <% } else { %>
+                <% favorites.forEach(fav => { %>
+                    <a class="favItem" href="/game/<%= fav.game_name %>">
+                        <%= fav.game_name %>
+                    </a>
+                <% }) %>
+            <% } %>
+        </div>
+
+    </main>
+
+    <%- include('partials/footer.ejs') %>
+
+</body>
+</html>
