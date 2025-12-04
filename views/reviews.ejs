@@ -1,0 +1,41 @@
+<!-- Head -->
+<%- include('partials/head.ejs') %>
+
+<link rel="stylesheet" href="/css/reviewsStyles.css">
+
+<body>
+    <main>
+        <div class="reviews-header">
+            <h1>Reviews</h1>
+
+            <a href="/game/<%= gameId %>" class="back-btn">Back to Game</a>
+        </div>
+
+        <!-- Write Review -->
+        <form id="reviewForm" class="review-form" method="POST" action="/reviews">
+            <input type="hidden" name="gameId" value="<%= gameId %>">
+
+            <label>Rating (1 to 10)</label>
+            <input type="number" name="rating" min="1" max="10" required>
+
+            <label>Your Review</label>
+            <textarea name="review_text" rows="4"></textarea>
+
+            <button type="submit">Submit Review</button>
+        </form>
+
+        <!-- List -->
+        <h2 class="section-title">All Reviews</h2>
+        <div id="reviewsList" class="reviews-list">
+            <p class="loading">Loading...</p>
+        </div>
+    </main>
+
+    <%- include('partials/footer.ejs') %>
+
+    <script>
+        const GAME_ID = "<%= gameId %>";
+    </script>
+    <script src="/js/reviewsScript.js"></script>
+</body>
+</html>

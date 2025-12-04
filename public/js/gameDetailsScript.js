@@ -95,8 +95,8 @@ async function displayGameDetails() {
     // Review Button
     let reviewsForm = document.querySelector('#reviewsForm');
     document.querySelector('#reviewsId').value = game.id;
-    // Update action when reviews page is ready.
-    // reviewsForm.action = '/???';
+    document.querySelector('#reviewsForm').action = `/reviews/${game.id}`;
+
 
     // Image
     let img = document.querySelector('#gameImgContainer');
