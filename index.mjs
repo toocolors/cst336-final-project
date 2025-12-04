@@ -170,6 +170,25 @@ app.post('/unfavorite', isAuthenticated, async (req, res) => {
     res.redirect(`/game/${name[0].game_name}`);
 });
 
+// Author: Suhaib Peracha
+// FAVORITES PAGE
+app.get('/favorites', isAuthenticated, async (req, res) => {
+    const userId = req.session.user;
+
+    let sql = `
+        SELECT favorites.game_id, games.game_name
+        FROM favorites
+        INNER JOIN games ON favorites.game_id = games.game_id
+        WHERE favorites.user_id = ?
+        ORDER BY games.game_name;
+    `;
+
+    const [rows] = await pool.query(sql, [userId]);
+
+    res.render('favorites', { favorites: rows });
+});
+
+
 // LOGIN / LOGOUT ROUTES
 // Root
 // Author: Noah deFer
