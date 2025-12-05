@@ -176,6 +176,12 @@ async function displayGameDetails() {
             genres.innerHTML += `${genre.name}<br>`
         }
     }
+
+    // Author: Jian Mitchell
+    const userId = await getCurrentUserId();
+    if (userId) {
+        recordGameView(game.id, game.name, userId);
+    }
     
 } // displayGameDetails
 
@@ -324,3 +330,68 @@ function storeGame(game) {
     localStorage.setItem(`GameQuest/Game/${game.name}`, JSON.stringify(game));
     console.log(`Stored ${game.name} in local storage!`);
 } // storeGame
+
+/**
+ * Gets the current user ID from server
+ * Author: Jian Mitchell
+ */
+async function getCurrentUserId() {
+    try {
+        const response = await fetch('/api/current-user');
+        const data = await response.json();
+
+        //console.log('fetching data:', data);
+
+        return data.user_id;
+    } catch (error) {
+        console.error('Error getting user ID:', error);
+        return null;
+    }
+}
+
+/**
+ * Records when a user views a game to localStorage
+ * Author: Jian Mitchell
+ * @param {number} gameId - The game's ID
+ * @param {string} gameName - The game's name
+ * @param {number} userId - The user's ID
+ */
+function recordGameView(gameId, gameName, userId) {
+    try {
+        const storageKey = 'GameQuest/RecentActivity/' + userId;
+
+        let recentGames = [];
+        const existingData = localStorage.getItem(storageKey);
+        if (existingData) {
+            recentGames = JSON.parse(existingData);
+        }
+
+        const newActivity = {
+            game_id: gameId,
+            game_name: gameName,
+            viewed_at: new Date().toISOString()
+        };
+
+        const filtered = [];
+        for (let i = 0; i < recentGames.length; i++) {
+            if (recentGames[i].game_id !== gameId) {
+                filtered[filtered.length] = recentGames[i];
+            }
+        }
+
+        const updated = [newActivity];
+        for (let i = 0; i < filtered.length; i++) {
+            updated[updated.length] = filtered[i];
+        }
+
+        const final = [];
+        for (let i = 0; i < updated.length && i < 5; i++) {
+            final[final.length] = updated[i];
+        }
+
+        localStorage.setItem(storageKey, JSON.stringify(final));
+
+    } catch (error) {
+        console.error('Error recording game view:', error);
+    }
+}
