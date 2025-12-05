@@ -271,6 +271,89 @@ app.get('/home', isAuthenticated, async (req, res) => {
 }); // home
 
 // QUEST ROUTES
+// Author: Jian Mitchell
+app.get('/quests', isAuthenticated, async (req, res) => {
+   res.render('quests');
+});
+
+// Author: Jian Mitchell
+app.get('/quest/:id', isAuthenticated, async (req, res) => {
+   let questId = req.params.id;
+
+   let sql = `
+        SELECT * FROM quests
+        WHERE quest_id = ? AND user_id = ?`;
+
+   const [rows] = await pool.query(sql, [questId, req.session.user]);
+
+   if (rows.length === 0) {
+       res.redirect('/quests');
+       return;
+   }
+
+   res.render('questDetails', {quest: rows[0]});
+});
+
+// Author: Jian Mitchell
+app.post('/quest/create', isAuthenticated, async (req, res) => {
+   let userId = req.session.user;
+   let gameId = req.body.gameId;
+   let questName = req.body.questName;
+   let questDesc = req.body.questDesc;
+   let difficulty = req.body.difficulty;
+   let status = req.body.status || 'not_started';
+   let createdAt = new Date().toISOString().split('T')[0];
+
+   let sql = `
+        INSERT INTO quests (user_id, game_id, quest_name, quest_desc, difficulty, status, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+   `;
+
+   const [rows] = await pool.query(sql, [userId, gameId, questName, questDesc, difficulty, status, createdAt]);
+
+   res.redirect('/quests');
+});
+
+// Author: Jian Mitchell
+app.post('/quest/update/:id', isAuthenticated, async (req, res) => {
+   let questId = req.params.id;
+   let userId = req.session.user;
+   let questName = req.body.questName;
+   let questDesc = req.body.questDesc;
+   let difficulty = req.body.difficulty;
+   let status = req.body.status;
+   let startedAt = req.body.startedAt || null;
+   let endedAt = req.body.endedAt || null;
+
+   let sql = `
+        UPDATE quests
+        SET quest_name = ?,
+            quest_desc = ?,
+            difficulty = ?,
+            status = ?,
+            started_at = ?,
+            ended_at = ?
+        WHERE quest_id = ? AND user_id = ?
+   `;
+
+   const [rows] = await pool.query(sql, [questName, questDesc, difficulty, status, startedAt, endedAt, questId, userId]);
+
+   res.redirect(`/quest/${questId}`);
+});
+
+// Author: Jian Mitchell
+app.post('/quest/delete/:id', isAuthenticated, async (req, res) => {
+   let questId = req.params.id;
+   let userId = req.session.user;
+
+   let sql = `
+        DELETE FROM quests WHERE quest_id = ? AND user_id = ?
+   `;
+
+   const [rows] = await pool.query(sql, [questId, userId]);
+
+   res.redirect('/quests');
+});
 
 // REVIEW ROUTES
 // show reviews page for a specific game
@@ -443,6 +526,58 @@ app.get('/api/recent-games', isAuthenticated, async (req, res) => {
    } catch (error) {
        console.error('Error fetching recent games:', error);
    }
+});
+
+// Author: Jian Mitchell
+app.get('/api/user-quests', isAuthenticated, async (req, res) => {
+   let sql = `
+        SELECT q.*, g.game_name
+        FROM quests q
+        LEFT JOIN games g ON q.game_id = g.game_id
+        WHERE q.user_id = ?
+        ORDER BY q.created_at DESC
+   `;
+
+   const [rows] = await pool.query(sql, [req.session.user]);
+
+   res.json(rows);
+});
+
+// Author: Jian Mitchell
+app.get('/api/quest/:id', isAuthenticated, async (req, res) => {
+   let sql = `
+        SELECT q.*, g.game_name
+        FROM quests q
+        LEFT JOIN games g ON q.game_id = g.game_id
+        WHERE q.quest_id = ? AND q.user_id = ?
+   `;
+
+   const [rows] = await pool.query(sql, [req.params.id, req.session.user]);
+
+   res.json(rows[0] || {});
+});
+
+// Author: Jian Mitchell
+app.get('/api/user-games', isAuthenticated, async (req, res) => {
+   let sql = `
+        SELECT DISTINCT g.game_id, g.game_name
+        FROM games g 
+        INNER JOIN collections c ON g.game_id = c.game_id
+        WHERE c.user_id = ?
+        ORDER BY g.game_name
+   `;
+
+   const [rows] = await pool.query(sql, [req.session.user]);
+
+   res.json(rows);
+});
+
+// Author: Jian Mitchell
+app.get('/api/current-user', isAuthenticated, (req, res) => {
+  res.json({
+    user_id: req.session.user,
+    username: req.session.username
+  });
 });
 
 // Author: Noah deFer
