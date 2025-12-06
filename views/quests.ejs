@@ -1,0 +1,86 @@
+<%- include('partials/head.ejs') %>
+
+<link rel="stylesheet" href="/css/questsStyles.css">
+
+<body>
+<main>
+    <div id="headingContainer">
+        <div id="navigationContainer">
+            <form action="/home">
+                <button id="homeBtn">Home</button>
+            </form>
+        </div>
+
+        <h1>GameQuest Tracker</h1>
+
+        <!-- Logout -->
+        <form action="/logout">
+            <button id="logoutBtn">Logout</button>
+        </form>
+    </div>
+
+    <h2>My Quests</h2>
+
+    <!-- Create New Quest Button -->
+    <a href="/quest/add" class="primary-btn" style="display: inline-block; text-decoration: none;">Create New Quest</a>
+
+    <!-- Filter Options -->
+    <div id="filterContainer">
+        <h3>Filter Quests</h3>
+
+        <!-- Status Filter (CHECKBOXES) -->
+        <div class="filter-group">
+            <label>Status:</label>
+            <div class="checkbox-group">
+                <label>
+                    <input type="checkbox" class="status-filter" value="not_started" checked> Not Started
+                </label>
+                <label>
+                    <input type="checkbox" class="status-filter" value="in_progress" checked> In Progress
+                </label>
+                <label>
+                    <input type="checkbox" class="status-filter" value="completed" checked> Completed
+                </label>
+            </div>
+        </div>
+
+        <!-- Difficulty Filter (CHECKBOXES) -->
+        <div class="filter-group">
+            <label>Difficulty:</label>
+            <div class="checkbox-group">
+                <label>
+                    <input type="checkbox" class="difficulty-filter" value="easy" checked> Easy
+                </label>
+                <label>
+                    <input type="checkbox" class="difficulty-filter" value="medium" checked> Medium
+                </label>
+                <label>
+                    <input type="checkbox" class="difficulty-filter" value="hard" checked> Hard
+                </label>
+            </div>
+        </div>
+
+        <!-- Sort By (SELECT dropdown) -->
+        <div class="filter-group">
+            <label for="sortBy">Sort By:</label>
+            <select id="sortBy">
+                <option value="created_desc">Newest First</option>
+                <option value="created_asc">Oldest First</option>
+                <option value="name_asc">Name (A-Z)</option>
+                <option value="name_desc">Name (Z-A)</option>
+                <option value="difficulty">Difficulty</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Quests List -->
+    <div id="questsList">
+        <p class="loading">Loading quests...</p>
+    </div>
+</main>
+
+<%- include('partials/footer.ejs') %>
+
+<script src="/js/questsScript.js"></script>
+</body>
+</html>
