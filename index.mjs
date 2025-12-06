@@ -277,6 +277,11 @@ app.get('/quests', isAuthenticated, async (req, res) => {
 });
 
 // Author: Jian Mitchell
+app.get('/quest/add', isAuthenticated, async (req, res) => {
+  res.render('addQuest');
+});
+
+// Author: Jian Mitchell
 app.get('/quest/:id', isAuthenticated, async (req, res) => {
    let questId = req.params.id;
 
@@ -338,7 +343,7 @@ app.post('/quest/update/:id', isAuthenticated, async (req, res) => {
 
    const [rows] = await pool.query(sql, [questName, questDesc, difficulty, status, startedAt, endedAt, questId, userId]);
 
-   res.redirect(`/quest/${questId}`);
+   res.redirect(`/quests`);
 });
 
 // Author: Jian Mitchell
