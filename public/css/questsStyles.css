@@ -323,18 +323,6 @@ button, .primary-btn, .secondary-btn, .danger-btn, .edit-btn {
   border-radius: 10px;
   max-width: 500px;
   width: 90%;
-  animation: modalSlideIn 0.3s ease;
-}
-
-@keyframes modalSlideIn {
-  from {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
 }
 
 .modal-header, .modal-body, .modal-footer {
@@ -385,28 +373,4 @@ button, .primary-btn, .secondary-btn, .danger-btn, .edit-btn {
 
 .error {
   color: #ff6b6b;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .quests-grid {
-    grid-template-columns: 1fr;
-  }
-
-  #headingContainer {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .button-group, .radio-group, .checkbox-group {
-    flex-direction: column;
-  }
-
-  .modal-footer {
-    flex-direction: column;
-  }
-
-  .modal-footer button {
-    width: 100%;
-  }
 }
